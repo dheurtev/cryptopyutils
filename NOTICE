@@ -1,0 +1,3 @@
+This library uses:
+- Cryptography : https://github.com/pyca/cryptography (Apache and BSD licensed)
+- Python: https://docs.python.org/3/license.html#psf-license (Python software and documentation are licensed under the PSF License Agreement).

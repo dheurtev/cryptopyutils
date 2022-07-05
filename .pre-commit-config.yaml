@@ -1,4 +1,17 @@
-exclude: ^/docs$
+exclude: |
+    (?x)^(
+        docs/|
+        old/|
+        .gitignore|
+        .setup.py|
+        .setup.cfg|
+        LICENSE.rst|
+        NOTICE.rst|
+        CHANGELOG.rst|
+        CONTRIBUTING.rst|
+        README.rst|
+        .pre-commit-config.yaml
+    )$
 repos:
 #Standard hooks
 -   repo: https://github.com/pre-commit/pre-commit-hooks
@@ -52,10 +65,10 @@ repos:
     hooks:
     -   id: reorder-python-imports
 # Detect dead code
--   repo: https://github.com/asottile/dead
-    rev: v1.5.0
-    hooks:
-    -   id: dead
+#-   repo: https://github.com/asottile/dead
+#    rev: v1.5.0
+#    hooks:
+#    -   id: dead
 # Changes tabs to spaces
 - repo: https://github.com/Lucas-C/pre-commit-hooks
   rev: v1.1.9
