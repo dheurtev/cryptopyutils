@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import pytest
-
-from cryptopyutils.skeleton import fib, main
+from cryptopyutils.skeleton import fib
+from cryptopyutils.skeleton import main
 
 __author__ = "david HEURTEVENT"
 __copyright__ = "david HEURTEVENT"

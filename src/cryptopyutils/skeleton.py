@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 This is a skeleton file that can serve as a starting point for a Python
 console script. To run this script uncomment the following lines in the
@@ -19,7 +20,6 @@ References:
     - https://setuptools.pypa.io/en/latest/userguide/entry_point.html
     - https://pip.pypa.io/en/stable/reference/pip_install
 """
-
 import argparse
 import logging
 import sys
@@ -106,7 +106,10 @@ def setup_logging(loglevel):
     """
     logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
     logging.basicConfig(
-        level=loglevel, stream=sys.stdout, format=logformat, datefmt="%Y-%m-%d %H:%M:%S"
+        level=loglevel,
+        stream=sys.stdout,
+        format=logformat,
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
 
 
