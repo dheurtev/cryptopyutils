@@ -18,7 +18,11 @@ import distro
 class Base:
     """Base object"""
 
-    def copyobj(self, source):
+    def __init__(self, **kwargs):
+        for attr, value in kwargs.items():
+            self.__setattr__(attr, value)
+
+    def copy(self, source):
         """Copy attributes from a source object
 
         Args:
@@ -34,6 +38,7 @@ class SysConfig(Base):
     """System Configuration - system information - extends Base"""
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.operating_system = os.name
         self.sys_platform = sys.platform
         self.platform_system = platform.system()
@@ -48,6 +53,7 @@ class ProjConfig(Base):
     """Project Configuration - extends SysConfig"""
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.sysconfig = kwargs.pop("sysconfig", SysConfig())
         # Default host
         self.host = kwargs.pop("host", "localhost")
@@ -71,6 +77,7 @@ class HashConfig(Base):
     """Hash Configuration class - extends Base"""
 
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # Warning: Avoid SHA1, MD5 or SHA less than 256, or SM3 (China)
         self.hash_algorithm = kwargs.pop("hash_algorithm", "SHA-256")
 
@@ -145,21 +152,21 @@ class PrivateKeyConfig(Base):
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
         # Default directory
-        if not hasattr(self, "ssl_private_key_dir"):
-            self.ssl_private_key_dir = kwargs.pop("ssl_private_key_dir", None)
-        if self.ssl_private_key_dir is None:
-            self.set_ssl_private_key_dir()
-        # Default private key file mode
-        self.private_key_mode = kwargs.pop("private_key_mode", 0o700)
-        # Default private encoding
-        self.private_encoding = kwargs.pop("private_encoding", self.asymconfig.encoding)
-        # Default private format
-        self.private_format = kwargs.pop("private_format", "PKCS8")
+        if not hasattr(self, "key_dir"):
+            self.key_dir = kwargs.pop("key_dir", None)
+        if self.key_dir is None:
+            self.set_key_dir()
+        # Default file mode
+        self.file_mode = kwargs.pop("file_mode", 0o700)
+        # Default encoding
+        self.encoding = kwargs.pop("encoding", self.asymconfig.encoding)
+        # Default file format
+        self.file_format = kwargs.pop("file_format", "PKCS8")
         # Default key sizes
         # RSA Key Size - Minimum should be 2048 bits.
         self.rsa_key_size = kwargs.pop("rsa_key_size", 4096)
         # RSA Public Exponent - 65537
-        self.rsa_key_exponent = kwargs.pop("rsa_key_exponent", 65537)
+        self.rsa_public_exponent = kwargs.pop("rsa_public_exponent", 65537)
         # DSA - Minimum 1024 bits
         self.dsa_key_size = kwargs.pop("dsa_key_size", 4096)
         # Elliptic Curves - NIST P-256 and P-384 are okay (with caveats)
@@ -168,7 +175,7 @@ class PrivateKeyConfig(Base):
         # https://malware.news/t/everyone-loves-curves-but-which-elliptic-curve-is-the-most-popular/17657
         self.elliptic_curve = "SECP384R1"
 
-    def set_ssl_private_key_dir(self, path=None):
+    def set_key_dir(self, path=None):
         """Set the SSL private key directory
 
         Args:
@@ -176,9 +183,9 @@ class PrivateKeyConfig(Base):
             Defaults to None.
         """
         if path is not None:
-            self.ssl_private_key_dir = path
+            self.key_dir = path
         else:
-            self.ssl_private_key_dir = os.path.join(self.asymconfig.ssl_dir, "private")
+            self.key_dir = os.path.join(self.asymconfig.ssl_dir, "private")
 
 
 class PublicKeyConfig(Base):
@@ -189,20 +196,20 @@ class PublicKeyConfig(Base):
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
         # Default directory
-        if not hasattr(self, "ssl_public_key_dir"):
-            self.ssl_public_key_dir = kwargs.pop("ssl_public_key_dir", None)
-        if self.ssl_public_key_dir is None:
-            self.set_ssl_public_key_dir()
-        # Default public key file mode
-        self.public_key_mode = kwargs.pop("public_key_mode", 0o744)
+        if not hasattr(self, "ssl_key_dir"):
+            self.key_dir = kwargs.pop("key_dir", None)
+        if self.key_dir is None:
+            self.set_key_dir()
+        # Default file mode
+        self.file_mode = kwargs.pop("file_mode", 0o744)
         # Default public encoding
-        self.public_encoding = kwargs.pop("public_encoding", self.asymconfig.encoding)
-        # Default public format
-        self.public_format = kwargs.pop("private_format", "PKCS8")
-        # Default public format
-        self.public_format = kwargs.pop("public_format", "SubjectPublicKeyInfo")
+        self.encoding = kwargs.pop("encoding", self.asymconfig.encoding)
+        # Default file format
+        self.file_format = kwargs.pop("file_format", "PKCS8")
+        # Default file format
+        self.file_format = kwargs.pop("file_format", "SubjectPublicKeyInfo")
 
-    def set_ssl_public_key_dir(self, path=None):
+    def set_key_dir(self, path=None):
         """Set the SSL public key directory
 
         Args:
@@ -210,9 +217,9 @@ class PublicKeyConfig(Base):
             Defaults to None.
         """
         if path is not None:
-            self.ssl_public_key_dir = path
+            self.key_dir = path
         else:
-            self.ssl_public_key_dir = os.path.join(self.asymconfig.ssl_dir, "private")
+            self.key_dir = os.path.join(self.asymconfig.ssl_dir, "private")
 
 
 class X509Config(AsymConfig):
@@ -230,47 +237,47 @@ class CertConfig(X509Config):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Default directory
-        if not hasattr(self, "ssl_cert_dir"):
-            self.ssl_cert_dir = kwargs.pop("ssl_cert_dir", None)
-        if self.ssl_cert_dir is None:
-            self.set_ssl_cert_dir()
+        if not hasattr(self, "cert_dir"):
+            self.cert_dir = kwargs.pop("cert_dir", None)
+        if self.cert_dir is None:
+            self.set_cert_dir()
         # Self-signed mode False by default
-        self.self_signed = kwargs.pop("cert_self_signed", "False")
-        # Default cert file mode
-        self.cert_file_mode = kwargs.pop("cert_file_mode", 0o744)
+        self.self_signed = kwargs.pop("self_signed", False)
+        # Default file mode
+        self.file_mode = kwargs.pop("file_mode", 0o744)
         # Default encoding
-        self.cert_encoding = kwargs.pop("cert_encoding", "PEM")
+        self.encoding = kwargs.pop("encoding", "PEM")
         # Default expiration in days
-        self.cert_expiration_days = kwargs.pop("cert_expiration_days", 3650)
+        self.expiration_days = kwargs.pop("expiration_days", 3650)
         # Certificate authority : False = Not a certificat authority,
         # cannot sign other certificates
         if self.self_signed:
             self.cert_ca = kwargs.pop("cert_ca", False)
         else:
             self.cert_ca = kwargs.pop("cert_ca", True)
-        # Default cert DNS Names
+        # Default DNS Names
         if self.self_signed:
             # Bug fix: 127.0.0.1 needed in DNS names
-            self.cert_dns_names = kwargs.pop(
-                "cert_dns_names",
+            self.dns_names = kwargs.pop(
+                "dns_names",
                 ["localhost", "127.0.0.1"],
             )
         else:
-            self.cert_dns_names = kwargs.pop("cert_dns_names", [])
-        # Default cert IP addresses
+            self.dns_names = kwargs.pop("dns_names", [])
+        # Default IP addresses
         if self.self_signed:
-            self.cert_ip_addrs = kwargs.pop("cert_ip_addrs", ["127.0.0.1"])
+            self.ip_addrs = kwargs.pop("ip_addrs", ["127.0.0.1"])
         else:
-            self.cert_ip_addrs = kwargs.pop("cert_ip_addrs", [])
+            self.ip_addrs = kwargs.pop("ip_addrs", [])
         # Critical: Are DNS Names and IP Addrs an important part of the certificate
-        self.cert_critical = kwargs.pop("cert_critical", True)
+        self.critical = kwargs.pop("critical", True)
         # Path Length : Can be 1 if CA=True
         if self.cert_ca:
-            self.cert_path_length = kwargs.pop("cert_path_length", 1)
+            self.path_length = kwargs.pop("path_length", 1)
         else:
-            self.cert_path_length = kwargs.pop("cert_path_length", None)
+            self.path_length = kwargs.pop("path_length", None)
 
-    def set_ssl_cert_dir(self, path=None):
+    def set_cert_dir(self, path=None):
         """Set the SSL Certificate directory
 
         Args:
@@ -278,9 +285,9 @@ class CertConfig(X509Config):
             Defaults to None.
         """
         if path is not None:
-            self.ssl_cert_dir = path
+            self.cert_dir = path
         else:
-            self.ssl_cert_dir = os.path.join(self.asymconfig.ssl_dir, "certs")
+            self.cert_dir = os.path.join(self.asymconfig.ssl_dir, "certs")
 
 
 class CSRConfig(X509Config):
@@ -289,31 +296,31 @@ class CSRConfig(X509Config):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Default directory
-        if not hasattr(self, "ssl_csr_dir"):
-            self.ssl_csr_dir = kwargs.pop("ssl_csr_dir", None)
+        if not hasattr(self, "csr_dir"):
+            self.ssl_csr_dir = kwargs.pop("csr_dir", None)
         if self.ssl_csr_dir is None:
-            self.set_ssl_csr_dir()
-        # Default csr file mode
-        self.csr_file_mode = kwargs.pop("csr_file_mode", 0o744)
+            self.set_csr_dir()
+        # Default file mode
+        self.file_mode = kwargs.pop("file_mode", 0o744)
         # Default encoding
-        self.csr_encoding = kwargs.pop("csr_encoding", "PEM")
-        # Default CSR DNS names
-        self.csr_dns_names = kwargs.pop("csr_dns_names", [])
-        # Default cert IP addresses
-        self.csr_ip_addrs = kwargs.pop("csr_ip_addrs", [])
+        self.encoding = kwargs.pop("encoding", "PEM")
+        # Default DNS names
+        self.dns_names = kwargs.pop("dns_names", [])
+        # Default IP addresses
+        self.ip_addrs = kwargs.pop("ip_addrs", [])
         # Critical: Are DNS Names and IP Addrs an important part of the certificate
-        self.csr_critical = kwargs.pop("csr_critical", True)
+        self.critical = kwargs.pop("critical", True)
 
-    def set_ssl_csr_dir(self, path=None):
+    def set_csr_dir(self, path=None):
         """Set the SSL CSR directory
 
         Args:
             path (str: optional): Path to the SSL CSR directory. Defaults to None.
         """
         if path is not None:
-            self.ssl_csr_dir = path
+            self.csr_dir = path
         else:
-            self.ssl_csr_dir = os.path.join(self.asymconfig.ssl_dir, "csr")
+            self.csr_dir = os.path.join(self.asymconfig.ssl_dir, "csr")
 
 
 class KeyPairConfig(Base):
@@ -324,27 +331,27 @@ class KeyPairConfig(Base):
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
         # Private key config
-        self.pk_config = kwargs.pop("pk_config", PrivateKeyConfig())
+        self.pkconfig = kwargs.pop("pkconfig", PrivateKeyConfig())
         # Public key config
-        self.pubk_config = kwargs.pop("pubk_config", PublicKeyConfig())
+        self.pubkconfig = kwargs.pop("pubkconfig", PublicKeyConfig())
 
 
-class SSHConfig(Base):
-    """Configuration for SSH"""
+class SSHKeyPairConfig(Base):
+    """Configuration for SSH Key Pair"""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
         # Private key config
-        self.pk_config = kwargs.pop("pk_config", PrivateKeyConfig())
+        self.pkconfig = kwargs.pop("pkconfig", PrivateKeyConfig())
         # Public key config
-        self.pubk_config = kwargs.pop("pubk_config", PublicKeyConfig())
+        self.pubkconfig = kwargs.pop("pubkconfig", PublicKeyConfig())
         # Default SSL Directories
         self.set_user_dir()
         self.set_host_dir()
         # Variables
-        self.pk_config.dsa_key_size = 1024
+        self.pkconfig.dsa_key_size = 1024
 
     def set_user_dir(self, path=None):
         """Set the SSH user directory
@@ -366,4 +373,4 @@ class SSHConfig(Base):
         if path is not None:
             self.host_dir = path
         else:
-            self.host_dir = "/etc/host"
+            self.host_dir = "/etc/ssh"
