@@ -69,11 +69,11 @@ def test_file_exists():
     filepath = "/tmp/tmpfile12395698744"
     if os.path.exists(filepath):
         os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
     Path(filepath).touch()
-    assert (files.file_exists(filepath)) == True
+    assert files.file_exists(filepath)
     os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
 
 
 def test_cycle_read_write_text():
@@ -81,15 +81,15 @@ def test_cycle_read_write_text():
     filepath = "/tmp/tmpfile12395698744"
     if os.path.exists(filepath):
         os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
     data = "This is my text"
     files.write(filepath, data, istext=True)
-    assert (files.file_exists(filepath)) == True
+    assert files.file_exists(filepath)
     # read the data
     data1 = files.read(filepath, istext=True)
     assert data == data1
     os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
 
 
 def test_cycle_read_write_binary():
@@ -97,15 +97,15 @@ def test_cycle_read_write_binary():
     filepath = "/tmp/tmpfile12395698744"
     if os.path.exists(filepath):
         os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
     data = b"This is my text"
     files.write(filepath, data)
-    assert (files.file_exists(filepath)) == True
+    assert files.file_exists(filepath)
     # read the data
     data1 = files.read(filepath)
     assert data == data1
     os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
 
 
 def test_cycle_chmod():
@@ -113,11 +113,11 @@ def test_cycle_chmod():
     filepath = "/tmp/tmpfile12395698744"
     if os.path.exists(filepath):
         os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
     Path(filepath).touch()
-    assert (files.file_exists(filepath)) == True
+    assert files.file_exists(filepath)
     files.set_chmod(filepath, 0o700)
     ch = files.get_chmod(filepath)
     assert ch == 33216
     os.remove(filepath)
-    assert (files.file_exists(filepath)) == False
+    assert not (files.file_exists(filepath))
