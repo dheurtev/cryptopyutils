@@ -52,13 +52,7 @@ def test_config_copy():
     assert beta.sysconfig.distro == "TEST"
 
 
-def test_hash_config_attributes():
-    alpha = config.HashConfig()
-    assert hasattr(alpha, "hash_algorithm")
-    assert alpha.hash_algorithm == "SHA-256"
-
-
-def test_hash_config_attributes():
+def test_password_config_attributes():
     alpha = config.PasswordConfig()
     assert hasattr(alpha, "hash_algorithm")
     assert hasattr(alpha, "salt_length")
@@ -71,16 +65,17 @@ def test_asymconfig():
     assert hasattr(alpha, "priv_key_alg")
     assert hasattr(alpha, "ssl_dir")
     assert hasattr(alpha, "encoding")
+    assert hasattr(alpha, "hash_alg")
     assert alpha.ssl_dir in ["/etc/ssl", "/etc/pki/tls"]
 
 
 def test_private_key_config():
     alpha = config.PrivateKeyConfig()
-    assert hasattr(alpha, "asymconfig")
-    assert isinstance(alpha.asymconfig, config.AsymConfig)
+    assert hasattr(alpha, "ssl_dir")
+    assert hasattr(alpha, "encoding")
+    assert hasattr(alpha, "hash_alg")
     assert hasattr(alpha, "key_dir")
     assert hasattr(alpha, "file_mode")
-    assert hasattr(alpha, "encoding")
     assert hasattr(alpha, "file_format")
     assert hasattr(alpha, "rsa_key_size")
     assert hasattr(alpha, "rsa_public_exponent")
@@ -91,11 +86,11 @@ def test_private_key_config():
 
 def test_public_key_config():
     alpha = config.PublicKeyConfig()
-    assert hasattr(alpha, "asymconfig")
-    assert isinstance(alpha.asymconfig, config.AsymConfig)
+    assert hasattr(alpha, "ssl_dir")
+    assert hasattr(alpha, "encoding")
+    assert hasattr(alpha, "hash_alg")
     assert hasattr(alpha, "key_dir")
     assert hasattr(alpha, "file_mode")
-    assert hasattr(alpha, "encoding")
     assert hasattr(alpha, "file_format")
     assert alpha.key_dir.index("private") > -1
 
@@ -109,6 +104,7 @@ def test_X509Config():
 def test_CertConfig():
     alpha = config.CertConfig()
     assert hasattr(alpha, "asymconfig")
+    assert hasattr(alpha, "hash_alg")
     assert hasattr(alpha, "cert_dir")
     assert hasattr(alpha, "self_signed")
     assert hasattr(alpha, "file_mode")
@@ -134,6 +130,7 @@ def test_CertConfigSelfSigned():
 def test_CSRConfig():
     alpha = config.CSRConfig()
     assert hasattr(alpha, "asymconfig")
+    assert hasattr(alpha, "hash_alg")
     assert isinstance(alpha.asymconfig, config.AsymConfig)
     assert hasattr(alpha, "csr_dir")
     assert hasattr(alpha, "file_mode")

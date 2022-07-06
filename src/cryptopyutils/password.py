@@ -9,10 +9,11 @@ https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/
 """
 import os
 
-import cryptopyutils.config as config
-import cryptopyutils.utils as utils
 from cryptography.exceptions import InvalidKey
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+from . import config
+from . import utils
 
 
 class Password:

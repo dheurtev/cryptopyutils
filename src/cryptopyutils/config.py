@@ -63,8 +63,8 @@ class ProjConfig(Base):
         self.file_mode = kwargs.pop("file_mode", 0o600)
 
 
-class PasswordConfig(ProjConfig):
-    """Password Configuration class - extends ProjConfig
+class PasswordConfig(Base):
+    """Password Configuration class - extends Base
 
     Args:
             hash_algorithm (str): the name of the hash algorithm.
@@ -104,6 +104,8 @@ class AsymConfig(ProjConfig):
             self.set_ssl_dir()
         # Default encoding
         self.encoding = kwargs.pop("encoding", "PEM")
+        # Hash algorithm
+        self.hash_alg = kwargs.pop("hash_alg", "SHA-256")
 
     def set_ssl_dir(self, path=None):
         """Set the SSL directory
@@ -157,8 +159,8 @@ class PrivateKeyConfig(Base):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # Projet configuration
-        self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
+        # SSL Directory
+        self.ssl_dir = kwargs.pop("ssl_dir", "/etc/ssl")
         # Default directory
         if not hasattr(self, "key_dir"):
             self.key_dir = kwargs.pop("key_dir", None)
@@ -167,7 +169,7 @@ class PrivateKeyConfig(Base):
         # Default file mode
         self.file_mode = kwargs.pop("file_mode", 0o700)
         # Default encoding
-        self.encoding = kwargs.pop("encoding", self.asymconfig.encoding)
+        self.encoding = kwargs.pop("encoding", "PEM")
         # Default file format
         self.file_format = kwargs.pop("file_format", "PKCS8")
         # Default key sizes
@@ -182,6 +184,8 @@ class PrivateKeyConfig(Base):
         # https://soatok.blog/2022/05/19/guidance-for-choosing-an-elliptic-curve-signature-algorithm-in-2022/
         # https://malware.news/t/everyone-loves-curves-but-which-elliptic-curve-is-the-most-popular/17657
         self.elliptic_curve = "SECP384R1"
+        # Hash algorithm
+        self.hash_alg = kwargs.pop("hash_alg", "SHA-256")
 
     def set_key_dir(self, path=None):
         """Set the SSL private key directory
@@ -193,7 +197,7 @@ class PrivateKeyConfig(Base):
         if path is not None:
             self.key_dir = path
         else:
-            self.key_dir = os.path.join(self.asymconfig.ssl_dir, "private")
+            self.key_dir = os.path.join(self.ssl_dir, "private")
 
 
 class PublicKeyConfig(Base):
@@ -201,8 +205,8 @@ class PublicKeyConfig(Base):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # Projet configuration
-        self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
+        # SSL Directory
+        self.ssl_dir = kwargs.pop("ssl_dir", "/etc/ssl")
         # Default directory
         if not hasattr(self, "ssl_key_dir"):
             self.key_dir = kwargs.pop("key_dir", None)
@@ -211,11 +215,13 @@ class PublicKeyConfig(Base):
         # Default file mode
         self.file_mode = kwargs.pop("file_mode", 0o644)
         # Default public encoding
-        self.encoding = kwargs.pop("encoding", self.asymconfig.encoding)
+        self.encoding = kwargs.pop("encoding", "PEM")
         # Default file format
         self.file_format = kwargs.pop("file_format", "PKCS8")
         # Default file format
         self.file_format = kwargs.pop("file_format", "SubjectPublicKeyInfo")
+        # Hash algorithm
+        self.hash_alg = kwargs.pop("hash_alg", "SHA-256")
 
     def set_key_dir(self, path=None):
         """Set the SSL public key directory
@@ -227,7 +233,7 @@ class PublicKeyConfig(Base):
         if path is not None:
             self.key_dir = path
         else:
-            self.key_dir = os.path.join(self.asymconfig.ssl_dir, "private")
+            self.key_dir = os.path.join(self.ssl_dir, "public")
 
 
 class X509Config(AsymConfig):
@@ -339,9 +345,23 @@ class KeyPairConfig(Base):
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
         # Private key config
-        self.pkconfig = kwargs.pop("pkconfig", PrivateKeyConfig())
+        self.pkconfig = kwargs.pop(
+            "pkconfig",
+            PrivateKeyConfig(
+                ssl_dir=self.asymconfig.ssl_dir,
+                encoding=self.asymconfig.encoding,
+                hash_alg=self.asymconfig.hash_alg,
+            ),
+        )
         # Public key config
-        self.pubkconfig = kwargs.pop("pubkconfig", PublicKeyConfig())
+        self.pubkconfig = kwargs.pop(
+            "pubkconfig",
+            PublicKeyConfig(
+                ssl_dir=self.asymconfig.ssl_dir,
+                encoding=self.asymconfig.encoding,
+                hash_alg=self.asymconfig.hash_alg,
+            ),
+        )
 
 
 class SSHKeyPairConfig(Base):
@@ -352,9 +372,23 @@ class SSHKeyPairConfig(Base):
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
         # Private key config
-        self.pkconfig = kwargs.pop("pkconfig", PrivateKeyConfig())
+        self.pkconfig = kwargs.pop(
+            "pkconfig",
+            PrivateKeyConfig(
+                ssl_dir=self.asymconfig.ssl_dir,
+                encoding=self.asymconfig.encoding,
+                hash_alg=self.asymconfig.hash_alg,
+            ),
+        )
         # Public key config
-        self.pubkconfig = kwargs.pop("pubkconfig", PublicKeyConfig())
+        self.pubkconfig = kwargs.pop(
+            "pubkconfig",
+            PublicKeyConfig(
+                ssl_dir=self.asymconfig.ssl_dir,
+                encoding=self.asymconfig.encoding,
+                hash_alg=self.asymconfig.hash_agl,
+            ),
+        )
         # Default SSL Directories
         self.set_user_dir()
         self.set_host_dir()
