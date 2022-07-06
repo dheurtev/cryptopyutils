@@ -92,7 +92,7 @@ def test_public_key_config():
     assert hasattr(alpha, "key_dir")
     assert hasattr(alpha, "file_mode")
     assert hasattr(alpha, "file_format")
-    assert alpha.key_dir.index("private") > -1
+    assert alpha.key_dir.index("public") > -1
 
 
 def test_X509Config():
@@ -141,25 +141,9 @@ def test_CSRConfig():
     assert alpha.csr_dir.index("csr") > -1
 
 
-def test_KeyPairConfig():
-    alpha = config.KeyPairConfig()
-    assert hasattr(alpha, "asymconfig")
-    assert hasattr(alpha, "pkconfig")
-    assert hasattr(alpha, "pubkconfig")
-    assert isinstance(alpha.asymconfig, config.AsymConfig)
-    assert isinstance(alpha.pkconfig, config.PrivateKeyConfig)
-    assert isinstance(alpha.pubkconfig, config.PublicKeyConfig)
-
-
 def test_SSHKeyPairConfig():
     alpha = config.SSHKeyPairConfig()
-    assert hasattr(alpha, "asymconfig")
-    assert hasattr(alpha, "pkconfig")
-    assert hasattr(alpha, "pubkconfig")
-    assert isinstance(alpha.asymconfig, config.AsymConfig)
-    assert isinstance(alpha.pkconfig, config.PrivateKeyConfig)
-    assert isinstance(alpha.pubkconfig, config.PublicKeyConfig)
-    assert alpha.pkconfig.dsa_key_size == 1024
+    assert alpha.dsa_key_size == 1024
     assert hasattr(alpha, "user_dir")
     assert alpha.user_dir.index(".ssh") > -1
     assert hasattr(alpha, "host_dir")

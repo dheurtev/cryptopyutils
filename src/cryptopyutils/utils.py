@@ -87,14 +87,14 @@ def private_format(fmt=None):
     Returns:
         PrivateFormat: A serialization PrivateFormat object
     """
-    fmt = {
+    formats = {
         "PKCS1": serialization.PrivateFormat.TraditionalOpenSSL,
         "PKCS8": serialization.PrivateFormat.PKCS8,
         "OpenSSH": serialization.PrivateFormat.OpenSSH,
         "RAW": serialization.PrivateFormat.Raw,
     }
-    if fmt in fmt.keys():
-        return fmt[fmt]
+    if fmt in formats.keys():
+        return formats[fmt]
     else:
         return None
 
@@ -109,7 +109,7 @@ def public_format(fmt=None):
     Returns:
         PublicFormat: A serialization PublicFormat object
     """
-    fmt = {
+    formats = {
         "PKCS1": serialization.PublicFormat.PKCS1,
         "SubjectPublicKeyInfo": serialization.PublicFormat.SubjectPublicKeyInfo,
         "OpenSSH": serialization.PublicFormat.OpenSSH,
@@ -117,8 +117,8 @@ def public_format(fmt=None):
         "UncompressedPoint": serialization.PublicFormat.UncompressedPoint,
         "RAW": serialization.PublicFormat.Raw,
     }
-    if fmt in fmt.keys():
-        return fmt[fmt]
+    if fmt in formats.keys():
+        return formats[fmt]
     else:
         return None
 

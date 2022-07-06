@@ -52,7 +52,7 @@ class PrivateKey(Base):
     # Generate
     def gen(
         self,
-        alg,
+        alg=None,
         key_size=None,
         public_exponent=None,
         curve=None,
@@ -61,6 +61,7 @@ class PrivateKey(Base):
 
         Args:
             alg (str): The key algorithm. RSA, EC, ED448, ED25519 and DSA are supported.
+            Defaults to None.
             key_size (int, optional): Key size.
             Defaults to None.
             Used in DSA and RSA.
@@ -71,6 +72,9 @@ class PrivateKey(Base):
             Defaults to None.
 
         """
+        # Defaults
+        if alg is None:
+            alg = self._config.alg.upper()
         # Generate based on the algorithm
         if alg == "RSA":
             self.gen_rsa(key_size, public_exponent)
@@ -103,7 +107,7 @@ class PrivateKey(Base):
         if key_size is None:
             key_size = self._config.rsa_key_size
         if public_exponent is None:
-            public_exponent = self._config.public_exponent
+            public_exponent = self._config.rsa_public_exponent
         # Generate the key
         self._key = rsa.generate_private_key(
             public_exponent=public_exponent,
@@ -351,6 +355,10 @@ class PrivateKey(Base):
     @property
     def key(self):
         return self._key
+
+    @key.setter
+    def key(self, key):
+        self._key = key
 
     @property
     def keyb64(self):

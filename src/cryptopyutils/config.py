@@ -166,6 +166,8 @@ class PrivateKeyConfig(Base):
             self.key_dir = kwargs.pop("key_dir", None)
         if self.key_dir is None:
             self.set_key_dir()
+        # Default algorithm
+        self.alg = kwargs.pop("alg", "RSA")
         # Default file mode
         self.file_mode = kwargs.pop("file_mode", 0o700)
         # Default encoding
@@ -337,63 +339,16 @@ class CSRConfig(X509Config):
             self.csr_dir = os.path.join(self.asymconfig.ssl_dir, "csr")
 
 
-class KeyPairConfig(Base):
-    """Key Pair Configuration - extends Base"""
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        # Projet configuration
-        self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
-        # Private key config
-        self.pkconfig = kwargs.pop(
-            "pkconfig",
-            PrivateKeyConfig(
-                ssl_dir=self.asymconfig.ssl_dir,
-                encoding=self.asymconfig.encoding,
-                hash_alg=self.asymconfig.hash_alg,
-            ),
-        )
-        # Public key config
-        self.pubkconfig = kwargs.pop(
-            "pubkconfig",
-            PublicKeyConfig(
-                ssl_dir=self.asymconfig.ssl_dir,
-                encoding=self.asymconfig.encoding,
-                hash_alg=self.asymconfig.hash_alg,
-            ),
-        )
-
-
 class SSHKeyPairConfig(Base):
     """Configuration for SSH Key Pair"""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # Projet configuration
-        self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
-        # Private key config
-        self.pkconfig = kwargs.pop(
-            "pkconfig",
-            PrivateKeyConfig(
-                ssl_dir=self.asymconfig.ssl_dir,
-                encoding=self.asymconfig.encoding,
-                hash_alg=self.asymconfig.hash_alg,
-            ),
-        )
-        # Public key config
-        self.pubkconfig = kwargs.pop(
-            "pubkconfig",
-            PublicKeyConfig(
-                ssl_dir=self.asymconfig.ssl_dir,
-                encoding=self.asymconfig.encoding,
-                hash_alg=self.asymconfig.hash_agl,
-            ),
-        )
         # Default SSL Directories
         self.set_user_dir()
         self.set_host_dir()
         # Variables
-        self.pkconfig.dsa_key_size = 1024
+        self.dsa_key_size = 1024
 
     def set_user_dir(self, path=None):
         """Set the SSH user directory
