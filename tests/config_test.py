@@ -58,6 +58,14 @@ def test_hash_config_attributes():
     assert alpha.hash_algorithm == "SHA-256"
 
 
+def test_hash_config_attributes():
+    alpha = config.PasswordConfig()
+    assert hasattr(alpha, "hash_algorithm")
+    assert hasattr(alpha, "salt_length")
+    assert hasattr(alpha, "key_length")
+    assert hasattr(alpha, "iterations")
+
+
 def test_asymconfig():
     alpha = config.AsymConfig()
     assert hasattr(alpha, "priv_key_alg")

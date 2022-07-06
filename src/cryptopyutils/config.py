@@ -64,22 +64,30 @@ class ProjConfig(Base):
 
 
 class PasswordConfig(ProjConfig):
-    """Password Configuration class - extends ProjConfig"""
+    """Password Configuration class - extends ProjConfig
+
+    Args:
+            hash_algorithm (str): the name of the hash algorithm.
+            Defaults to SHA-256.
+            salt_length (int) – The number of bytes of the salt.
+            Secure values are 16 (128-bits) or longer and randomly generated.
+            Defaults to 16.
+            length (int) – The desired length of the derived key in bytes.
+            Maximum is (232 - 1) * algorithm.digest_size.
+            Defaults to 32.
+            iterations (int) – The number of iterations to perform of the
+            hash function.
+            This can be used to control the length of time the operation takes.
+            Higher numbers help mitigate brute force attacks against derived keys.
+            Defaults to 390000.
+    """
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.hash_algorithm = kwargs.pop("hash_algorithm", "SHA-256")
         self.salt_length = kwargs.pop("salt_length", 16)
         self.key_length = kwargs.pop("key_length", 32)
-        self.salt_iterations = kwargs.pop("salt_iterations", 390000)
-
-
-class HashConfig(Base):
-    """Hash Configuration class - extends Base"""
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        # Warning: Avoid SHA1, MD5 or SHA less than 256, or SM3 (China)
-        self.hash_algorithm = kwargs.pop("hash_algorithm", "SHA-256")
+        self.iterations = kwargs.pop("iterations", 390000)
 
 
 class AsymConfig(ProjConfig):
