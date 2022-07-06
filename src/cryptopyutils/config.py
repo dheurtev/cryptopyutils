@@ -60,7 +60,7 @@ class ProjConfig(Base):
         # Default output directory
         self.output_directory = kwargs.pop("output_directory", expanduser("~"))
         # Default file_mode
-        self.file_mode = kwargs.pop("file_mode", 0o700)
+        self.file_mode = kwargs.pop("file_mode", 0o600)
 
 
 class PasswordConfig(ProjConfig):
@@ -209,7 +209,7 @@ class PublicKeyConfig(Base):
         if self.key_dir is None:
             self.set_key_dir()
         # Default file mode
-        self.file_mode = kwargs.pop("file_mode", 0o744)
+        self.file_mode = kwargs.pop("file_mode", 0o644)
         # Default public encoding
         self.encoding = kwargs.pop("encoding", self.asymconfig.encoding)
         # Default file format
@@ -252,7 +252,7 @@ class CertConfig(X509Config):
         # Self-signed mode False by default
         self.self_signed = kwargs.pop("self_signed", False)
         # Default file mode
-        self.file_mode = kwargs.pop("file_mode", 0o744)
+        self.file_mode = kwargs.pop("file_mode", 0o644)
         # Default encoding
         self.encoding = kwargs.pop("encoding", "PEM")
         # Default expiration in days
@@ -309,7 +309,7 @@ class CSRConfig(X509Config):
         if self.ssl_csr_dir is None:
             self.set_csr_dir()
         # Default file mode
-        self.file_mode = kwargs.pop("file_mode", 0o744)
+        self.file_mode = kwargs.pop("file_mode", 0o644)
         # Default encoding
         self.encoding = kwargs.pop("encoding", "PEM")
         # Default DNS names
