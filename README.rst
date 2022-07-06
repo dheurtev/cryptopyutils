@@ -94,7 +94,7 @@ Example: See example/constant_time_comparison.py
 [https://soatok.blog/2022/05/19/guidance-for-choosing-an-elliptic-curve-signature-algorithm-in-2022](https://soatok.blog/2022/05/19/guidance-for-choosing-an-elliptic-curve-signature-algorithm-in-2022/)
 [https://www.keylength.com/en/4/](https://www.keylength.com/en/4/)
 - Expected coding style is as compliant as possible with PEP8 (use flake8, pylint, etc).
-- Use single quotes whereever possible.
+- Use double quotes whereever possible.
 - `cryptopyutils` has a goal of strong API stability policy: Public API shall not be removed or renamed without providing a compatibility alias. The behavior of existing APIs shall not change. Exceptions to API stability are for security purposes to resolve security issues or harden the library against a possible attack or underlying changes in `cryptography`.
 
 ## Disclaimer
