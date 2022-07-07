@@ -169,7 +169,7 @@ class PrivateKeyConfig(Base):
         # Default algorithm
         self.alg = kwargs.pop("alg", "RSA")
         # Default file mode
-        self.file_mode = kwargs.pop("file_mode", 0o700)
+        self.file_mode = kwargs.pop("file_mode", 0o600)
         # Default encoding
         self.encoding = kwargs.pop("encoding", "PEM")
         # Default file format
