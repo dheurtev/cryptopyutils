@@ -155,7 +155,7 @@ class PrivateKey(Base):
     # Load
 
     def load(self, path, encoding=None, passphrase=None):
-        """Load the private key or the public key
+        """Load the private key
 
         Args:
             path(str): The file path of the key to be loaded.
@@ -236,13 +236,14 @@ class PrivateKey(Base):
         Return:
             bytes: The encoded and formatted key
         """
+        # Defaults
         if encoding is None:
             encoding = self._config.encoding
 
         if file_format is None:
             file_format = self._config.file_format
 
-        # encode
+        # Encode
         data = self._key.private_bytes(
             encoding=utils.file_encoding(encoding),
             format=utils.private_format(file_format),
@@ -268,7 +269,7 @@ class PrivateKey(Base):
             Defaults to None.
             file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
             Defaults to None.
-            passphrase (str, optional): The passphrase. Only for PEM.
+            passphrase (str, optional): The passphrase.
             Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
             Defaults to None.
@@ -312,7 +313,7 @@ class PrivateKey(Base):
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
             Defaults to None.
-            passphrase (str, optional): The passphrase. Only for PEM.
+            passphrase (str, optional): The passphrase.
             Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
             Defaults to None.
@@ -339,7 +340,7 @@ class PrivateKey(Base):
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
             Defaults to None.
-            passphrase (str, optional): The passphrase. Only for PEM.
+            passphrase (str, optional): The passphrase.
             Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
             Defaults to None.
