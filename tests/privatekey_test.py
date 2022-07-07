@@ -17,7 +17,7 @@ def test_instanciation_new_key():
     """Test Private Key object instanciation with new key"""
     privk = PrivateKey()
     privk.gen()
-    assert type(privk.key) == rsa._RSAPrivateKey
+    assert isinstance(privk.key, rsa._RSAPrivateKey)
 
 
 def test_instanciation_existing_private_key():
@@ -25,7 +25,7 @@ def test_instanciation_existing_private_key():
     privk = PrivateKey()
     privk.gen()
     pk1 = PrivateKey(key=privk.key)
-    assert type(pk1.key) == rsa._RSAPrivateKey
+    assert isinstance(pk1.key, rsa._RSAPrivateKey)
 
 
 def test_gen_and_save():
@@ -110,7 +110,7 @@ def test_cycle_passphrase():
     assert privk.key.private_numbers() == privka.key.private_numbers()
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_pem():
@@ -129,7 +129,7 @@ def test_cycle_pem():
     assert privk.key.private_numbers() == privka.key.private_numbers()
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_der():
@@ -148,7 +148,7 @@ def test_cycle_der():
     assert privk.key.private_numbers() == privka.key.private_numbers()
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_dsa():
@@ -166,10 +166,10 @@ def test_cycle_dsa():
     # test the keys
     assert privk.key.private_numbers() == privka.key.private_numbers()
     # check it is a DSA key
-    assert type(privk.key) == dsa._DSAPrivateKey
+    assert isinstance(privk.key, dsa._DSAPrivateKey)
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_ed448():
@@ -178,7 +178,7 @@ def test_cycle_ed448():
     privk = PrivateKey()
     privk.gen("ED448")
     # check it is ED448 key
-    assert type(privk.key) == ed448._Ed448PrivateKey
+    assert isinstance(privk.key, ed448._Ed448PrivateKey)
     # save the private key
     filepath = "/tmp/test/private/www.example.com.pem"
     status = privk.save(filepath, force=True)
@@ -191,7 +191,7 @@ def test_cycle_ed448():
     assert privk.key.sign(message) == privka.key.sign(message)
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_ed25519():
@@ -200,7 +200,7 @@ def test_cycle_ed25519():
     privk = PrivateKey()
     privk.gen(alg="ED25519")
     # check it is an ED25519 key
-    assert type(privk.key) == ed25519._Ed25519PrivateKey
+    assert isinstance(privk.key, ed25519._Ed25519PrivateKey)
     # save the private key
     filepath = "/tmp/test/private/www.example.com.pem"
     status = privk.save(path=filepath, force=True)
@@ -213,7 +213,7 @@ def test_cycle_ed25519():
     assert privk.key.sign(message) == privka.key.sign(message)
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_ec():
@@ -222,7 +222,7 @@ def test_cycle_ec():
     privk = PrivateKey()
     privk.gen(alg="EC")
     # check it is an Elliptic Curve key
-    assert type(privk.key) == ec._EllipticCurvePrivateKey
+    assert isinstance(privk.key, ec._EllipticCurvePrivateKey)
     # save the private key
     filepath = "/tmp/test/private/www.example.com.pem"
     status = privk.save(path=filepath, force=True)
@@ -234,7 +234,7 @@ def test_cycle_ec():
     assert privk.key.private_numbers() == privka.key.private_numbers()
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 def test_cycle_other_ec():
@@ -243,7 +243,7 @@ def test_cycle_other_ec():
     privk = PrivateKey()
     privk.gen(alg="EC", curve="SECP521R1")
     # check it is an Elliptic Curve key
-    assert type(privk.key) == ec._EllipticCurvePrivateKey
+    assert isinstance(privk.key, ec._EllipticCurvePrivateKey)
     # save the private key
     filepath = "/tmp/test/private/www.example.com.pem"
     status = privk.save(path=filepath, force=True)
@@ -255,7 +255,7 @@ def test_cycle_other_ec():
     assert privk.key.private_numbers() == privka.key.private_numbers()
     # remove file
     os.remove(filepath)
-    assert os.path.exists(filepath) == False
+    assert not os.path.exists(filepath)
 
 
 # decrypt : tested in test_asym.py

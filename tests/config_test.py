@@ -103,7 +103,7 @@ def test_public_key_config():
     assert alpha.key_dir.index("public") > -1
 
 
-def test_X509_config():
+def test_x509_config():
     """Test X509Config attributes"""
     alpha = config.X509Config()
     assert hasattr(alpha, "asymconfig")
@@ -138,7 +138,7 @@ def test_cert_config_self_signed():
     assert alpha.ip_addrs == ["127.0.0.1"]
 
 
-def test_CSR_config():
+def test_csr_config():
     """Test CSRConfig"""
     alpha = config.CSRConfig()
     assert hasattr(alpha, "asymconfig")
@@ -153,7 +153,7 @@ def test_CSR_config():
     assert alpha.csr_dir.index("csr") > -1
 
 
-def test_SSHKey_pair_config():
+def test_sshkey_pair_config():
     """Test SSHKeyPair Config"""
     alpha = config.SSHKeyPairConfig()
     assert alpha.dsa_key_size == 1024
