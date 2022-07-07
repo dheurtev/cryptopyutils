@@ -24,6 +24,7 @@ from cryptopyutils import utils
 
 
 def main():
+    """Constant time comparison"""
     parser = argparse.ArgumentParser(
         description="CONSTANT TIME COMPARISON",
     )
