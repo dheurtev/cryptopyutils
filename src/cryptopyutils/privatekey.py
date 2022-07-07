@@ -368,7 +368,8 @@ class PrivateKey(Base):
         """Set the key with a pre-existing Cryptography Private Key
 
         Args:
-            key (Cryptography Private Key): An instance of an alg PrivateKey from Cryptography
+            key (Cryptography Private Key): An instance of an alg PrivateKey
+            from Cryptography
         """
         self._key = key
 

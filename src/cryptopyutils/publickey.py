@@ -40,8 +40,8 @@ class PublicKey(Base):
 
         Args:
             config (PublicKeyConfig, optional): The configuration.
-            key (PublicKey, optional) : The public key.
-            An instance of PublicKey.
+            key (Cryptography PublicKey, optional) : The public key.
+            An instance of Cryptography PublicKey.
             Defaults to None.
             private_key (PrivateKey, optional): The private key.
             An instance of PrivateKey.
@@ -105,6 +105,10 @@ class PublicKey(Base):
             Defaults to None.
 
         """
+        # Default encoding
+        if encoding is None:
+            encoding = self._config.encoding
+
         # serialize based on encoding
         if encoding == "PEM":
             lines = files.read(path)

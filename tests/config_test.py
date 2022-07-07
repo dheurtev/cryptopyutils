@@ -45,7 +45,8 @@ def proj_config_attributes():
     assert hasattr(alpha, "file_mode")
 
 
-def test_config_copy():
+def test_proj_config_copy():
+    """Test copy of ProjConfig"""
     alpha = config.ProjConfig()
     alpha.sysconfig.distro = "TEST"
     beta = config.ProjConfig().copy(alpha)
@@ -53,6 +54,7 @@ def test_config_copy():
 
 
 def test_password_config_attributes():
+    """Test PasswordConfig attributes"""
     alpha = config.PasswordConfig()
     assert hasattr(alpha, "hash_algorithm")
     assert hasattr(alpha, "salt_length")
@@ -61,6 +63,7 @@ def test_password_config_attributes():
 
 
 def test_asymconfig():
+    """Test AsymConfig attributes"""
     alpha = config.AsymConfig()
     assert hasattr(alpha, "priv_key_alg")
     assert hasattr(alpha, "ssl_dir")
@@ -70,9 +73,11 @@ def test_asymconfig():
 
 
 def test_private_key_config():
+    """Test PrivateKeyConfig attributes"""
     alpha = config.PrivateKeyConfig()
     assert hasattr(alpha, "ssl_dir")
     assert hasattr(alpha, "encoding")
+    assert hasattr(alpha, "alg")
     assert hasattr(alpha, "hash_alg")
     assert hasattr(alpha, "key_dir")
     assert hasattr(alpha, "file_mode")
@@ -85,9 +90,11 @@ def test_private_key_config():
 
 
 def test_public_key_config():
+    """Test PublicKeyconfig"""
     alpha = config.PublicKeyConfig()
     assert hasattr(alpha, "ssl_dir")
     assert hasattr(alpha, "encoding")
+    assert hasattr(alpha, "alg")
     assert hasattr(alpha, "hash_alg")
     assert hasattr(alpha, "key_dir")
     assert hasattr(alpha, "file_mode")
