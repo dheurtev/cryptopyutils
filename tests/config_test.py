@@ -33,6 +33,7 @@ def test_sys_config_copy():
 
 
 def proj_config_attributes():
+    """Test ProjConfig attributes"""
     alpha = config.ProjConfig()
     assert hasattr(alpha, "sysconfig")
     assert isinstance(alpha.sysconfig, config.SysConfig)
@@ -90,7 +91,7 @@ def test_private_key_config():
 
 
 def test_public_key_config():
-    """Test PublicKeyconfig"""
+    """Test PublicKeyConfig attributes"""
     alpha = config.PublicKeyConfig()
     assert hasattr(alpha, "ssl_dir")
     assert hasattr(alpha, "encoding")
@@ -102,13 +103,15 @@ def test_public_key_config():
     assert alpha.key_dir.index("public") > -1
 
 
-def test_X509Config():
+def test_X509_config():
+    """Test X509Config attributes"""
     alpha = config.X509Config()
     assert hasattr(alpha, "asymconfig")
     assert isinstance(alpha.asymconfig, config.AsymConfig)
 
 
-def test_CertConfig():
+def test_cert_config():
+    """Test CertConfig"""
     alpha = config.CertConfig()
     assert hasattr(alpha, "asymconfig")
     assert hasattr(alpha, "hash_alg")
@@ -125,7 +128,8 @@ def test_CertConfig():
     assert alpha.cert_dir.index("certs") > -1
 
 
-def test_CertConfigSelfSigned():
+def test_cert_config_self_signed():
+    """Test CertConfig with self signed"""
     alpha = config.CertConfig(self_signed=True)
     assert alpha.self_signed is True
     assert alpha.cert_ca is False
@@ -134,7 +138,8 @@ def test_CertConfigSelfSigned():
     assert alpha.ip_addrs == ["127.0.0.1"]
 
 
-def test_CSRConfig():
+def test_CSR_config():
+    """Test CSRConfig"""
     alpha = config.CSRConfig()
     assert hasattr(alpha, "asymconfig")
     assert hasattr(alpha, "hash_alg")
@@ -148,7 +153,8 @@ def test_CSRConfig():
     assert alpha.csr_dir.index("csr") > -1
 
 
-def test_SSHKeyPairConfig():
+def test_SSHKey_pair_config():
+    """Test SSHKeyPair Config"""
     alpha = config.SSHKeyPairConfig()
     assert alpha.dsa_key_size == 1024
     assert hasattr(alpha, "user_dir")
