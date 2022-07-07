@@ -12,7 +12,8 @@ from cryptopyutils.publickey import PublicKey
 
 
 def test_encryption_decryption_cycle():
-    """Test encryption and decryption cycle using an Asymmetric RSA private key / public key pair"""
+    """Test encryption and decryption cycle using an
+    Asymmetric RSA private key / public key pair"""
     # create the private key
     privk = PrivateKey()
     privk.gen()
@@ -31,7 +32,8 @@ def test_encryption_decryption_cycle():
 
 
 def test_str_encryption_decryption_cycle():
-    """Test encryption and decryption cycle using an Asymmetric RSA private key / public key pair
+    """Test encryption and decryption cycle using an
+    Asymmetric RSA private key / public key pair
     for a text
     """
     # create the private key
@@ -52,7 +54,8 @@ def test_str_encryption_decryption_cycle():
 
 
 def test_sign_verify_cycle():
-    """Test sign and verify cycle using an Asymmetric RSA private key / public key pair"""
+    """Test sign and verify cycle using an Asymmetric RSA
+    private key / public key pair"""
     # create the private key
     privk = PrivateKey()
     privk.gen()
@@ -71,7 +74,8 @@ def test_sign_verify_cycle():
 
 
 def test_sign_verify_cycle_incorrect_sig():
-    """Test sign and verify cycle using an Asymmetric RSA private key / public key pair
+    """Test sign and verify cycle using an Asymmetric RSA
+    private key / public key pair
     with an incorrect signature
     """
     # create the private key
@@ -92,7 +96,8 @@ def test_sign_verify_cycle_incorrect_sig():
 
 
 def test_sign_verify_cycle_dsa():
-    """Test sign and verify cycle using an Asymmetric DSA private key / public key pair"""
+    """Test sign and verify cycle using an Asymmetric DSA
+    private key / public key pair"""
     alg = "DSA"
     # create the private key
     privk = PrivateKey()
@@ -112,7 +117,8 @@ def test_sign_verify_cycle_dsa():
 
 
 def test_sign_verify_cycle_ed448():
-    """Test sign and verify cycle using an Asymmetric ED448 private key / public key pair"""
+    """Test sign and verify cycle using an Asymmetric ED448
+    private key / public key pair"""
     alg = "ED448"
     # create the private key
     privk = PrivateKey()
@@ -132,7 +138,8 @@ def test_sign_verify_cycle_ed448():
 
 
 def test_sign_verify_cycle_ed25519():
-    """Test sign and verify cycle using an Asymmetric ED25519 private key / public key pair"""
+    """Test sign and verify cycle using an Asymmetric ED25519
+    private key / public key pair"""
     alg = "ED25519"
     # create the private key
     privk = PrivateKey()
@@ -152,7 +159,8 @@ def test_sign_verify_cycle_ed25519():
 
 
 def test_sign_verify_cycle_ec():
-    """Test sign and verify cycle using an Asymmetric Elliptic Curve private key / public key pair"""
+    """Test sign and verify cycle using an Asymmetric Elliptic Curve
+    private key / public key pair"""
     alg = "EC"
     # create the private key
     privk = PrivateKey()
@@ -172,7 +180,8 @@ def test_sign_verify_cycle_ec():
 
 
 def test_sign_verify_other_cycle_ec():
-    """Test sign and verify cycle using an Asymmetric a non standard Elliptic Curve private key / public key pair"""
+    """Test sign and verify cycle using an Asymmetric a non standard Elliptic Curve
+    private key / public key pair"""
     alg = "EC"
     # create the private key
     privk = PrivateKey()
