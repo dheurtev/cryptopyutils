@@ -355,20 +355,41 @@ class PrivateKey(Base):
 
     @property
     def key(self):
+        """Get the key attribute
+
+        Returns:
+            Cryptography Private Key: An instance of an alg PrivateKey from Cryptography
+            (e.g. RSAPrivateKey)
+        """
         return self._key
 
     @key.setter
     def key(self, key):
+        """Set the key with a pre-existing Cryptography Private Key
+
+        Args:
+            key (Cryptography Private Key): An instance of an alg PrivateKey from Cryptography
+        """
         self._key = key
 
     @property
     def keyb64(self):
+        """Returns the key bytes in Base 64 format
+
+        Returns:
+            bytes: the key bytes in Base64 format
+        """
         keybytes = self.keybytes
         return base64.b64encode(keybytes).encode("UTF-8")
 
     @property
     def keybytes(self):
-        return self._encode("DER", None, "RAW")
+        """Returns the key bytes in DER Raw format
+
+        Returns:
+            bytes: the key bytes in DER Raw format
+        """
+        return self._encode("DER", "Raw")
 
     # Decryption
     def decrypt(

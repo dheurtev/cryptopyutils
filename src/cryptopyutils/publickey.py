@@ -284,27 +284,57 @@ class PublicKey(Base):
 
     @property
     def key(self):
+        """Get the key attribute
+
+        Returns:
+            Cryptography Public Key: An instance of PublicKey from Cryptography
+        """
         return self._key
 
     @key.setter
     def key(self, key):
+        """Set the key with a pre-existing Cryptography Public Key
+
+        Args:
+            key (Cryptography Public Key): An instance of PublicKey from Cryptography
+        """
         self._key = key
 
     @property
     def private_key(self):
+        """Get the private_key attribute
+
+        Returns:
+           PrivateKey : An instance of PrivateKey
+        """
         return self._private_key
 
     @private_key.setter
     def private_key(self, key):
+        """Set the key with a pre-existing private key
+
+        Args:
+            key (PrivateKey): An instance of PrivateKey
+        """
         self._private_key = key
 
     @property
     def keyb64(self):
+        """Returns the key bytes in Base 64 format
+
+        Returns:
+            bytes: the key bytes in Base64 format
+        """
         keybytes = self.keybytes
         return base64.b64encode(keybytes).encode("UTF-8")
 
     @property
     def keybytes(self):
+        """Returns the key bytes in DER Raw format
+
+        Returns:
+            bytes: the key bytes in DER Raw format
+        """
         return self._encode("DER", "Raw")
 
     # Encrypt
