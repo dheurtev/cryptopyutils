@@ -2,7 +2,8 @@
 """publickey.py - Public Key : generate, save, load, encrypt, verify
 
 Class:
-- PublicKey
+
+* PublicKey
 
 """
 import base64
@@ -26,26 +27,29 @@ class PublicKey(Base):
     """Public Key Class - extends Base
 
     Usage:
-    - initialize : pubk = PublicKey(PublicKey()) or pk = PublicKey()
+
+    * initialize : pubk = PublicKey(PublicKey()) or pk = PublicKey()
                 or pubk = PublicKey(private_key=PrivateKey())
-    - generate the key: pubk.gen()
-    - save key: pubk.save(filepath)
-    - load key: pubk.load(filepath)
-    - decrypt: pubk.decrypt(ciphertext)
-    - verify: pubk.verify(signature, message)
+    * generate the key: pubk.gen()
+    * save key: pubk.save(filepath)
+    * load key: pubk.load(filepath)
+    * decrypt: pubk.decrypt(ciphertext)
+    * verify: pubk.verify(signature, message)
+
     """
 
     def __init__(self, **kwargs):
-        """PublicKey class constructor
+        """PublicKey class initiator
 
         Args:
             config (PublicKeyConfig, optional): The configuration.
             key (Cryptography PublicKey, optional) : The public key.
-            An instance of Cryptography PublicKey.
-            Defaults to None.
+                An instance of Cryptography PublicKey.
+                Defaults to None.
             private_key (PrivateKey, optional): The private key.
-            An instance of PrivateKey.
-            Defaults to None.
+                An instance of PrivateKey.
+                Defaults to None.
+
         """
         super().__init__(**kwargs)
         # configuration
@@ -64,11 +68,11 @@ class PublicKey(Base):
 
         Args:
             alg (str): The key algorithm. RSA, EC, ED448, ED25519 and DSA
-            are supported.
-            Defaults to None.
+                are supported.
+                Defaults to None.
             private_key (PrivateKey, optional): The private key.
-            An instance of PrivateKey.
-            Defaults to None.
+                An instance of PrivateKey.
+                Defaults to None.
         """
         # Defaults
         if alg is None:
@@ -102,7 +106,7 @@ class PublicKey(Base):
         Args:
             path(str): The file path of the public key to be loaded.
             encoding (str, optional): Encoding PEM, DER, openSSH, RAW, X962, SMIME.
-            Defaults to None.
+                Defaults to None.
 
         """
         # Default encoding
@@ -155,19 +159,21 @@ class PublicKey(Base):
         """Encode the public key to a given format
 
         Notes:
-        - SSH format requires PEM encoding.
-        - Default SubjectPublicKeyInfo format (None) requires PEM or DER encoding
-        - PKCS8 is the default (Traditional openSSL style is kept as legacy)
+
+        * SSH format requires PEM encoding.
+        * Default SubjectPublicKeyInfo format (None) requires PEM or DER encoding
+        * PKCS8 is the default (Traditional openSSL style is kept as legacy)
 
         Args:
             encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
-            Defaults to None.
+                Defaults to None.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-            or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
-            Defaults to None.
+                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                Defaults to None.
 
-        Return:
-            bytes: The encoded and formatted key
+        Returns:
+            bytes: The encoded and formatted key.
+
         """
         # Defaults
         if encoding is None:
@@ -195,25 +201,27 @@ class PublicKey(Base):
         """Save the public key to file
 
         Notes:
-        - SSH format requires PEM encoding.
-        - Default SubjectPublicKeyInfo format (None) requires PEM or DER encoding
-        - PKCS8 is the default (Traditional openSSL style is kept as legacy)
+
+        * SSH format requires PEM encoding.
+        * Default SubjectPublicKeyInfo format (None) requires PEM or DER encoding
+        * PKCS8 is the default (Traditional openSSL style is kept as legacy)
 
         Args:
             path (str): The file path where the public key will be saved.
             encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
-            Defaults to None.
+               Defaults to None.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-            or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
-            Defaults to None.
+                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         # encoding
         data = self._encode(encoding, file_format)
@@ -248,16 +256,17 @@ class PublicKey(Base):
         Args:
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-            or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
-            Defaults to None.
+                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, "PEM", file_format, file_mode, force)
 
@@ -273,16 +282,17 @@ class PublicKey(Base):
         Args:
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-            or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
-            Defaults to None.
+                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, "DER", file_format, file_mode, force)
 
@@ -291,7 +301,7 @@ class PublicKey(Base):
         """Get the key attribute
 
         Returns:
-            Cryptography Public Key: An instance of PublicKey from Cryptography
+            Cryptography Public Key: An instance of PublicKey from Cryptography.
         """
         return self._key
 
@@ -300,7 +310,8 @@ class PublicKey(Base):
         """Set the key with a pre-existing Cryptography Public Key
 
         Args:
-            key (Cryptography Public Key): An instance of PublicKey from Cryptography
+            key (Cryptography Public Key): An instance of PublicKey from Cryptography.
+
         """
         self._key = key
 
@@ -309,7 +320,8 @@ class PublicKey(Base):
         """Get the private_key attribute
 
         Returns:
-           PrivateKey : An instance of PrivateKey
+           PrivateKey : An instance of PrivateKey.
+
         """
         return self._private_key
 
@@ -318,7 +330,8 @@ class PublicKey(Base):
         """Set the key with a pre-existing private key
 
         Args:
-            key (PrivateKey): An instance of PrivateKey
+            key (PrivateKey): An instance of PrivateKey.
+
         """
         self._private_key = key
 
@@ -327,7 +340,8 @@ class PublicKey(Base):
         """Returns the key bytes in Base 64 format
 
         Returns:
-            bytes: the key bytes in Base64 format
+            bytes: the key bytes in Base64 format.
+
         """
         keybytes = self.keybytes
         return base64.b64encode(keybytes).encode("UTF-8")
@@ -337,7 +351,8 @@ class PublicKey(Base):
         """Returns the key bytes in DER Raw format
 
         Returns:
-            bytes: the key bytes in DER Raw format
+            bytes: the key bytes in DER Raw format.
+
         """
         return self._encode("DER", "Raw")
 
@@ -350,11 +365,12 @@ class PublicKey(Base):
 
         Args:
             plaintext(bytes or str): The plaintext to encrypt.
-            padding(AsymmetricPadding): An instance of AsymmetricPadding.
-            Defaults to None.
+            padding(AsymmetricPadding, optional): An instance of AsymmetricPadding.
+                Defaults to None.
 
         Returns:
             base64: The encrypted message in base 64 format.
+
         """
         # Defaults
         if padding is None:
@@ -388,16 +404,18 @@ class PublicKey(Base):
         Args:
             signature (base64): The signature in base64 format.
             message (bytes or str): The message to verify.
-            hash_alg (str) – the hash algorithm.
-            Defaults to None.
+            hash_alg (str, optional) – the hash algorithm.
+                Defaults to None.
             padding (AsymmetricPadding, optional): An instance of AsymmetricPadding.
-            Not in DSA.
-            Defaults to None.
-            pre_hashed (bool): Flag indicating the the message is a digest from
-            pre-hashed values (message too large). Defaults to False
+                Not in DSA.
+                Defaults to None.
+            pre_hashed (bool, optional): Flag indicating the the message is a digest
+                from pre-hashed values (message too large).
+                Defaults to False.
 
         Raises:
-            bool: False if the signature does not validate, else True
+            bool: False if the signature does not validate, else True.
+
         """
         # Defaults
         if hash_alg is None:

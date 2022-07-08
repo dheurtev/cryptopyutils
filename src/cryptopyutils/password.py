@@ -2,7 +2,8 @@
 """password.py - Password : derive, verify
 
 Class:
-- Password
+
+* Password
 
 https://cryptography.io/en/latest/hazmat/primitives/key-derivation-functions/
 
@@ -22,18 +23,21 @@ class Password:
     def __init__(self, conf=config.PasswordConfig()):
         """Password init
         Args:
-            conf (config.PasswordConfig, optional): An instance of config.PasswordConfig
+            conf (config.PasswordConfig, optional): An instance of PasswordConfig.
+
         """
         self.conf = conf
 
     def gen_salt(self, length=16):
-        """Generate a salt_
+        """Generate a salt
 
         Args:
-            length (int, optional): Length of the salt. Defaults to 16.
+            length (int, optional): Length of the salt.
+                Defaults to 16.
 
         Returns:
             bytes: salt
+
         """
         return os.urandom(int(length))
 
@@ -42,11 +46,12 @@ class Password:
 
         Args:
             password (bytes or str) : the password. Bytes or string.
-            If string, encoded in UTF-8.
+                If string, encoded in UTF-8.
 
         Returns:
-            bytes: The derived key
-            bytes: The salt
+            bytes: The derived key.
+            bytes: The salt.
+
         """
         # generate the salt
         salt = self.gen_salt(self.conf.salt_length)
@@ -70,9 +75,9 @@ class Password:
 
         Args:
             attempt (bytes or str) : the tentative password to be checked.
-            If string, encoded in UTF-8.
-            key (bytes): The key
-            salt (bytes): The salt
+                If string, encoded in UTF-8.
+            key (bytes): The key.
+            salt (bytes): The salt.
 
         Returns:
             bool: True if verified, False if not verified

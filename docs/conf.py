@@ -72,6 +72,7 @@ extensions = [
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
+    "myst_parser",  # Markdown
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -287,5 +288,3 @@ intersphinx_mapping = {
 }
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)
-
-extensions = ["myst_parser"]

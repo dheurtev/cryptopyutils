@@ -2,7 +2,8 @@
 """csr.py - Certificate Signing Request (CSR)
 
 Class:
-- CSR : x509 CSR object
+
+* CSR : x509 CSR object
 
 """
 from cryptography import x509
@@ -19,19 +20,23 @@ class CSR(Base):
     """CSR Object extends Base
 
     Usage:
-    - initialize : c = CSR() or c = CSR(private_key=PrivateKey())
-    - generate csr : c.gen()
-    - get csr object : c.csr
-    - save csr: c.save(filepath)
-    - load keycsr: c.load(filepath)
+
+    * initialize : c = CSR() or c = CSR(private_key=PrivateKey())
+    * generate csr : c.gen()
+    * get csr object : c.csr
+    * save csr: c.save(filepath)
+    * load keycsr: c.load(filepath)
     """
 
     def __init__(self, **kwargs):
         """CSR init
         Args:
             config (CSRConfig, optional): The configuration.
-            private_key (PrivateKey): The private key. An instance of PrivateKey.
-            Defaults to None.
+            private_key (PrivateKey, optional): The private key. An instance of PrivateKey.
+                Defaults to None.
+            csr (CSR, optional): An instance of CSR.
+                Defaults to None.
+
         """
         super().__init__(**kwargs)
         # configuration
@@ -52,7 +57,8 @@ class CSR(Base):
         """Get the CSR attribute
 
         Returns:
-            Cryptography CSR: An instance of CSR from Cryptography
+            Cryptography CSR: An instance of CSR from Cryptography.
+
         """
         return self._csr
 
@@ -70,7 +76,8 @@ class CSR(Base):
         """Get the private_key attribute
 
         Returns:
-           PrivateKey : An instance of PrivateKey
+           PrivateKey : An instance of PrivateKey.
+
         """
         return self._private_key
 
@@ -79,7 +86,8 @@ class CSR(Base):
         """Set the key with a pre-existing private key
 
         Args:
-            key (PrivateKey): An instance of PrivateKey
+            key (PrivateKey): An instance of PrivateKey.
+
         """
         self._private_key = key
 
@@ -98,15 +106,16 @@ class CSR(Base):
         Args:
             challenge_password(str or bytes): The secret shared with the certificate issuer.
             String will be encoded in UTF8.
-            subject: dict(str): The subject informations needed to generate
-            the CSR.
-            Defaults to None.
+            subject: dict(str, optional): The subject informations needed to generate
+                the CSR.
+                Defaults to None.
             dns_names (list(str), optional): A list of DNS Names.
-            Defaults to None.
-            ip_addresses: list(str): A list of IP addresses.
-            Defaults to None.
-            hash_alg (str): The Hash algorithm.
-            Defaults to None.
+                Defaults to None.
+            ip_addresses: list(str, optional): A list of IP addresses.
+                Defaults to None.
+            hash_alg (str, optional): The Hash algorithm.
+                Defaults to None.
+
         """
         # defaults
         if subject is None:
@@ -158,15 +167,16 @@ class CSR(Base):
         Args:
             path(str): The file path where the CSR will be saved.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             encoding (str, optional): Encoding PEM or DER.
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         # Defaults
         if file_mode is None:
@@ -198,24 +208,22 @@ class CSR(Base):
         """Write our PEM x509 CSR out to disk
 
         Args:
-            path(str, optional): The file path where the CSR will be saved.
-            Default is None (will generate a temporary file).
-            out_dir(str, optional): The directory path.
-            Defaults to None.
-            mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+            path(str): The file path where the CSR will be saved.
+            file_mode (byte, optional): The file mode (chmod).
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, file_mode, "PEM", force)
 
     def save_der(
         self,
-        path=None,
+        path,
         file_mode=None,
         force=False,
     ):
@@ -223,17 +231,15 @@ class CSR(Base):
 
         Args:
             path(str, optional): The file path where the CSR will be saved.
-            Default is None (will generate a temporary file).
-            out_dir(str, optional): The directory path.
-            Defaults to None.
-            mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+            file_mode (byte, optional): The file mode (chmod).
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, file_mode, "DER", force)
 
@@ -244,7 +250,7 @@ class CSR(Base):
         Args:
             path (str): The file path where the CSR is saved.
             encoding (str, optional): Encoding PEM or DER.
-            Defaults to None.
+                Defaults to None.
         """
         # Defaults
         if encoding is None:
@@ -262,6 +268,7 @@ class CSR(Base):
 
         Args:
             filepath (str): The file path where the CSR is saved.
+
         """
         self.load(path, "PEM")
 
@@ -270,5 +277,6 @@ class CSR(Base):
 
         Args:
             path (str): The file path where the CSR is saved.
+
         """
         self.load(path, "DER")

@@ -23,14 +23,16 @@ class SSHKeyPair(Base):
 
     def __init__(self, **kwargs):
         """SSHKeyPair class constructor
+
         Args:
             config (SSHKeyPairConfig, optional): The configuration.
             private_key (PrivateKey, optional): The private key.
-            An instance of PrivateKey.
-            public_key (PublicKey, optional): The public key. An instance of PublicKey
+                An instance of PrivateKey.
+            public_key (PublicKey, optional): The public key. An instance of PublicKey.
             alg (str, optional): The key algorithm. RSA, ED25519, ECDSA and
-            DSA (legacy) are supported.
-            Defaults to `RSA`.
+                DSA (legacy) are supported.
+                Defaults to `RSA`.
+
         """
         super().__init__(**kwargs)
         # configuration
@@ -51,7 +53,8 @@ class SSHKeyPair(Base):
         """Get the public_key attribute
 
         Returns:
-            PublicKey: An instance of PublicKey
+            PublicKey: An instance of PublicKey.
+
         """
         return self._public_key
 
@@ -60,7 +63,8 @@ class SSHKeyPair(Base):
         """Set the key with a pre-existing Public Key
 
         Args:
-            key (PublicKey): An instance of PublicKey
+            key (PublicKey): An instance of PublicKey.
+
         """
         self._public_key = key
 
@@ -69,7 +73,8 @@ class SSHKeyPair(Base):
         """Get the private_key attribute
 
         Returns:
-           PrivateKey : An instance of PrivateKey
+           PrivateKey : An instance of PrivateKey.
+
         """
         return self._private_key
 
@@ -78,7 +83,8 @@ class SSHKeyPair(Base):
         """Set the key with a pre-existing private key
 
         Args:
-            key (PrivateKey): An instance of PrivateKey
+            key (PrivateKey): An instance of PrivateKey.
+
         """
         self._private_key = key
 
@@ -94,17 +100,16 @@ class SSHKeyPair(Base):
 
         Args:
             alg (str, optional): The key algorithm. RSA, ED25519, ECDSA and
-            DSA (legacy) are supported.
-            Defaults to `RSA`.
-            key_size (int, optional): Key size.
-            Defaults to None.
-            Used in RSA.
-            public_exponent (int, optional): Public Exponent.
-            Defaults to None.
-            Used in RSA.
-            curve (str): The name of the elliptic curve for ECDSA.
-            Defaults to None.
-            passphrase (str, optional): The passphrase. Defaults to None.
+                DSA (legacy) are supported.
+                Defaults to `RSA`.
+            key_size (int, optional): Key size. Used in RSA.
+                Defaults to None.
+            public_exponent (int, optional): Public Exponent. Used in RSA.
+                Defaults to None.
+            curve (str, optional): The name of the elliptic curve for ECDSA.
+                Defaults to None.
+            passphrase (str, optional): The passphrase.
+                Defaults to None.
 
         """
         # handle the algorithm
@@ -135,15 +140,17 @@ class SSHKeyPair(Base):
 
         Args:
             path (str): The file path where the private key will be saved.
-            passphrase (str, optional): The passphrase. Defaults to None.
+            passphrase (str, optional): The passphrase.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         # Note: SSH format requires PEM encoding.
         return self._private_key.save(
@@ -160,7 +167,8 @@ class SSHKeyPair(Base):
 
         Args:
             filepath(str): The file path of the private key to be loaded.
-            passphrase (str, optional): The passphrase. Default to None.
+            passphrase (str, optional): The passphrase.
+                Default to None.
 
         """
         self._private_key.load(path, "OpenSSH", passphrase)
@@ -169,7 +177,8 @@ class SSHKeyPair(Base):
     def gen_public_key(self):
         """Generate the SSH public key
 
-        Assumes you have generated the private key first
+        Assumes you have generated the private key first.
+
         """
         if self._alg in ["RSA", "ED25519", "DSA", "EC"]:
             self._public_key.gen(self._alg, self.private_key)
@@ -200,15 +209,17 @@ class SSHKeyPair(Base):
         Args:
             path (str): The file path where the public key will be saved.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
             comment (str, optional): comment. Typically user@host format to be appended
-            at the end of the public key.
-            Defaults to None.
+                at the end of the public key.
+                Defaults to None.
+
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         status = self.public_key.save(path, "OpenSSH", "OpenSSH", file_mode, force)
         # return False if public key not saved
@@ -233,7 +244,8 @@ class SSHKeyPair(Base):
         Args:
             path (str): path to the public key file
             hash_alg (str, optional): The hash algorithm.
-            Defaults to None.
+                Defaults to None.
+
         """
         # Defaults
         if hash_alg is None:
@@ -273,31 +285,30 @@ class SSHKeyPair(Base):
         Args:
             alg (str, optional): The key algorithm. RSA, ED25519, ECDSA and DSA (legacy) are supported. Defaults to `RSA`.
             out_dir (str, optional): The output directory path.
-            Defaults to None.
+                Defaults to None.
             passphrase (str, optional): The passphrase.
-            Defaults to None.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
-            key_size (int, optional): Key size.
-            Defaults to None.
-            Used in RSA.
-            public_exponent (int, optional): Public Exponent.
-            Defaults to None.
-            Used in RSA.
+                Defaults to False.
+            key_size (int, optional): Key size. Used in RSA.
+                Defaults to None.
+            public_exponent (int, optional): Public Exponent. Used in RSA.
+                Defaults to None.
             curve (int): The elliptic curve length for ECDSA. Can be 256, 384 or 521.
-            Defaults to 521.
+                Defaults to 521.
             comment (str, optional): comment. Typically user@host format to be appended
-            at the end of the public key
-            Defaults to None.
+                at the end of the public key.
+                Defaults to None.
             is_user (bool, optional): Is the key a user key (True) or a system key (False).
-            Defaults to True.
+                Defaults to True.
 
         Returns:
             [bool, bool]: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
             [str, str]: File path
+
         """
         # algorithm supported
         if alg not in ["RSA", "ED25519", "ECDSA", "DSA"]:

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-config.py - Configuration file
+"""config.py - Configuration file
 
 Configuration of defaults
 
@@ -16,9 +15,10 @@ import distro
 
 
 class Base:
-    """Base object"""
+    """Base class"""
 
     def __init__(self, **kwargs):
+        """Base class initiator"""
         for attr, value in kwargs.items():
             self.__setattr__(attr, value)
 
@@ -27,15 +27,17 @@ class Base:
 
         Args:
             source (obj): source object
+
         Returns:
             obj: self
+
         """
         self.__dict__.update(source.__dict__)
         return self
 
 
 class SysConfig(Base):
-    """System Configuration - system information - extends Base"""
+    """SysConfig class - System Configuration - system information - extends Base"""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -50,7 +52,7 @@ class SysConfig(Base):
 
 
 class ProjConfig(Base):
-    """Project Configuration - extends SysConfig"""
+    """Projconfig class - Project Configuration - extends SysConfig"""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -64,18 +66,18 @@ class ProjConfig(Base):
 
 
 class PasswordConfig(Base):
-    """Password Configuration class - extends Base
+    """PasswordConfig class - Password Configuration class - extends Base
 
     Args:
-            hash_algorithm (str): the name of the hash algorithm.
+        hash_algorithm (str): the name of the hash algorithm.
             Defaults to SHA-256.
-            salt_length (int) – The number of bytes of the salt.
+        salt_length (int) – The number of bytes of the salt.
             Secure values are 16 (128-bits) or longer and randomly generated.
             Defaults to 16.
-            length (int) – The desired length of the derived key in bytes.
+        length (int) – The desired length of the derived key in bytes.
             Maximum is (232 - 1) * algorithm.digest_size.
             Defaults to 32.
-            iterations (int) – The number of iterations to perform of the
+        iterations (int) – The number of iterations to perform of the
             hash function.
             This can be used to control the length of time the operation takes.
             Higher numbers help mitigate brute force attacks against derived keys.
@@ -83,6 +85,7 @@ class PasswordConfig(Base):
     """
 
     def __init__(self, **kwargs):
+        """ "PasswordConfig class initiator"""
         super().__init__(**kwargs)
         self.hash_algorithm = kwargs.pop("hash_algorithm", "SHA-256")
         self.salt_length = kwargs.pop("salt_length", 16)
@@ -91,9 +94,10 @@ class PasswordConfig(Base):
 
 
 class AsymConfig(ProjConfig):
-    """Asymmetric Configuration class - extends ProjConfig"""
+    """AsymConfig class - Asymmetric Configuration class - extends ProjConfig"""
 
     def __init__(self, **kwargs):
+        """AsymConfig class initiator"""
         super().__init__(**kwargs)
         # Default algorithm
         self.priv_key_alg = kwargs.pop("priv_key_alg", "rsa")
@@ -115,6 +119,7 @@ class AsymConfig(ProjConfig):
 
         Returns:
             str: The path to the ssl directory
+
         """
         if path is not None:
             self.ssl_dir = path
@@ -155,9 +160,10 @@ class AsymConfig(ProjConfig):
 
 
 class PrivateKeyConfig(Base):
-    """Private Key Configuration - extends AsymConfig"""
+    """PrivateKeyConfig class - Private Key Configuration - extends AsymConfig"""
 
     def __init__(self, **kwargs):
+        """PrivateKeyConfig class initiator"""
         super().__init__(**kwargs)
         # SSL Directory
         self.ssl_dir = kwargs.pop("ssl_dir", "/etc/ssl")
@@ -194,7 +200,7 @@ class PrivateKeyConfig(Base):
 
         Args:
             path (str: optional): Path to the SSL private key directory.
-            Defaults to None.
+                Defaults to None.
         """
         if path is not None:
             self.key_dir = path
@@ -203,9 +209,10 @@ class PrivateKeyConfig(Base):
 
 
 class PublicKeyConfig(Base):
-    """Public Key Configuration - extends AsymConfig"""
+    """PublicKeyConfig initiator - Public Key Configuration - extends AsymConfig"""
 
     def __init__(self, **kwargs):
+        """PublicKeyConfig class initiator"""
         super().__init__(**kwargs)
         # SSL Directory
         self.ssl_dir = kwargs.pop("ssl_dir", "/etc/ssl")
@@ -232,7 +239,7 @@ class PublicKeyConfig(Base):
 
         Args:
             path (str: optional): Path to the SSL public key directory.
-            Defaults to None.
+                Defaults to None.
         """
         if path is not None:
             self.key_dir = path
@@ -241,9 +248,10 @@ class PublicKeyConfig(Base):
 
 
 class X509Config(AsymConfig):
-    """x509 Configuration - extends AsymConfig"""
+    """X509Config class - x509 Configuration - extends AsymConfig"""
 
     def __init__(self, **kwargs):
+        """X509Config class initiator"""
         super().__init__(**kwargs)
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
@@ -261,9 +269,10 @@ class X509Config(AsymConfig):
 
 
 class CertConfig(X509Config):
-    """x509 Certificate Configuration - extends x509Config"""
+    """CertConfig class - x509 Certificate Configuration - extends x509Config"""
 
     def __init__(self, **kwargs):
+        """CertConfig class initiator"""
         super().__init__(**kwargs)
         # Default directory
         if not hasattr(self, "cert_dir"):
@@ -311,7 +320,8 @@ class CertConfig(X509Config):
 
         Args:
             path (str: optional): Path to the SSL certificate directory.
-            Defaults to None.
+                Defaults to None.
+
         """
         if path is not None:
             self.cert_dir = path
@@ -320,9 +330,10 @@ class CertConfig(X509Config):
 
 
 class CSRConfig(X509Config):
-    """x509 CSR Configuration - extends x509Config"""
+    """CSRConfig class - x509 CSR Configuration - extends x509Config"""
 
     def __init__(self, **kwargs):
+        """CSRConfig class initiator"""
         super().__init__(**kwargs)
         # Default directory
         if not hasattr(self, "csr_dir"):
@@ -351,9 +362,10 @@ class CSRConfig(X509Config):
 
 
 class SSHKeyPairConfig(Base):
-    """Configuration for SSH Key Pair"""
+    """SSHKeyPairConfig class - Configuration for SSH Key Pair"""
 
     def __init__(self, **kwargs):
+        """SSHKeyPairConfig class initiator"""
         super().__init__(**kwargs)
         # Default SSL Directories
         self.set_user_dir()
@@ -367,7 +379,9 @@ class SSHKeyPairConfig(Base):
         """Set the SSH user directory
 
         Args:
-            path (str: optional): Path to the SSH user directory. Defaults to None.
+            path (str: optional): Path to the SSH user directory.
+                Defaults to None.
+
         """
         if path is not None:
             self.user_dir = path
@@ -378,7 +392,9 @@ class SSHKeyPairConfig(Base):
         """Set the SSH host directory
 
         Args:
-            path (str: optional): Path to the SSH host directory. Defaults to None.
+            path (str: optional): Path to the SSH host directory.
+                Defaults to None.
+
         """
         if path is not None:
             self.host_dir = path

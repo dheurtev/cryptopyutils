@@ -2,7 +2,8 @@
 """privatekey.py - Private Key : generate, save, load, decrypt, sign
 
 Class:
-- PrivateKey
+
+* PrivateKey
 
 """
 import base64
@@ -25,20 +26,24 @@ class PrivateKey(Base):
     """PrivateKey class - extends Base
 
     Usage (minimum requirements):
-    - initialize : privk = PrivateKey() or privk = PrivateKey(PrivateKey())
-    - generate key: privk.gen(alg)
-    - save key: privk.save(filepath)
-    - load key: privk.load(filepath)
-    - decrypt: privk.decrypt(ciphertext)
-    - sign: privk.sign(message)
+
+    * initialize : privk = PrivateKey() or privk = PrivateKey(PrivateKey())
+    * generate key: privk.gen(alg)
+    * save key: privk.save(filepath)
+    * load key: privk.load(filepath)
+    * decrypt: privk.decrypt(ciphertext)
+    * sign: privk.sign(message)
+
     """
 
     def __init__(self, **kwargs):
-        """PrivateKey class constructor
+        """PrivateKey class initiator
+
         Args:
             config (PrivateKeyConfig, optional): The configuration.
-            key (PrivateKey, optional): The private key. An instance of RSAPrivateKey
-            or other cryptography private key object.
+            key (PrivateKey, optional): The private key. An instance of RSAPrivateKey.
+                or other cryptography private key object.
+
         """
         super().__init__(**kwargs)
         # configuration
@@ -60,15 +65,13 @@ class PrivateKey(Base):
 
         Args:
             alg (str): The key algorithm. RSA, EC, ED448, ED25519 and DSA are supported.
-            Defaults to None.
-            key_size (int, optional): Key size.
-            Defaults to None.
-            Used in DSA and RSA.
-            public_exponent (int, optional): Public Exponent.
-            Defaults to None.
-            Used in RSA.
-            curve (str): The name of the elliptic curve
-            Defaults to None.
+                Defaults to None.
+            key_size (int, optional): Key size. Used in DSA and RSA.
+                Defaults to None.
+            public_exponent (int, optional): Public Exponent. Used in RSA.
+                Defaults to None.
+            curve (str): The name of the elliptic curve.
+                Defaults to None.
 
         """
         # Defaults
@@ -98,9 +101,9 @@ class PrivateKey(Base):
 
         Args:
             key_size (int, optional): Key size.
-            Defaults to None.
+                Defaults to None.
             public_exponent (int, optional): Public Exponent.
-            Defaults to None.
+                Defaults to None.
         """
         # Default config
         if key_size is None:
@@ -118,7 +121,8 @@ class PrivateKey(Base):
 
         Args:
             key_size (int, optional): Key size.
-            Defaults to None.
+                Defaults to None.
+
         """
         # Default config
         if key_size is None:
@@ -142,8 +146,9 @@ class PrivateKey(Base):
         """Generate an Elliptic Curve private key
 
         Args:
-            curve (str): The name of the elliptic curve
-            Defaults to None.
+            curve (str): The name of the elliptic curve.
+                Defaults to None.
+
         """
         # Default config
         if curve is None:
@@ -158,12 +163,12 @@ class PrivateKey(Base):
 
         Args:
             path(str): The file path of the key to be loaded.
-            Defaults to None.
+                Defaults to None.
             encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
-            Defaults to None.
+                Defaults to None.
             passphrase (str, optional): The passphrase. Only for encrypted PEM or
-            openSSH files.
-            Default to None.
+                openSSH files.
+                Default to None.
         """
         # passphrase
         if passphrase is not None:
@@ -198,7 +203,7 @@ class PrivateKey(Base):
         Args:
             path(str): The file path of the private key to be loaded.
             passphrase (str, optional): The passphrase.
-            Defaults to None.
+                Defaults to None.
         """
         self.load(path, "PEM", passphrase)
 
@@ -221,19 +226,21 @@ class PrivateKey(Base):
     ):
         """Encode the private key to a given format
         Notes:
-        - SSH format requires PEM encoding.
-        - PKCS8 is the default (Traditional openSSL style is kept as legacy)
+
+        * SSH format requires PEM encoding.
+        * PKCS8 is the default (Traditional openSSL style is kept as legacy)
 
         Args:
             encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
-            Defaults to None.
+                Defaults to None.
             file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
-            Defaults to None.
+                Defaults to None.
             passphrase (str, optional): The passphrase. Only for PEM.
-            Defaults to None.
+                Defaults to None.
 
-        Return:
-            bytes: The encoded and formatted key
+        Returns:
+            bytes: The encoded and formatted key.
+
         """
         # Defaults
         if encoding is None:
@@ -276,7 +283,8 @@ class PrivateKey(Base):
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         # encode
         data = self._encode(encoding, file_format, passphrase)
@@ -310,17 +318,18 @@ class PrivateKey(Base):
         Args:
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
-            Defaults to None.
+                Defaults to None.
             passphrase (str, optional): The passphrase.
-            Defaults to None.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, "PEM", file_format, passphrase, file_mode, force)
 
@@ -337,17 +346,18 @@ class PrivateKey(Base):
         Args:
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
-            Defaults to None.
+                Defaults to None.
             passphrase (str, optional): The passphrase.
-            Defaults to None.
+                Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, "DER", file_format, passphrase, file_mode, force)
 
@@ -357,7 +367,8 @@ class PrivateKey(Base):
 
         Returns:
             Cryptography Private Key: An instance of an alg PrivateKey from Cryptography
-            (e.g. RSAPrivateKey)
+                (e.g. RSAPrivateKey).
+
         """
         return self._key
 
@@ -367,7 +378,8 @@ class PrivateKey(Base):
 
         Args:
             key (Cryptography Private Key): An instance of an alg PrivateKey
-            from Cryptography
+                from Cryptography.
+
         """
         self._key = key
 
@@ -376,7 +388,8 @@ class PrivateKey(Base):
         """Returns the key bytes in Base 64 format
 
         Returns:
-            bytes: the key bytes in Base64 format
+            bytes: the key bytes in Base64 format.
+
         """
         keybytes = self.keybytes
         return base64.b64encode(keybytes).encode("UTF-8")
@@ -387,6 +400,7 @@ class PrivateKey(Base):
 
         Returns:
             bytes: the key bytes in DER Raw format
+
         """
         return self._encode("DER", "Raw")
 
@@ -405,12 +419,14 @@ class PrivateKey(Base):
         Args:
             ciphertext (base64): The ciphertext to decrypt in base 64.
             padding (AsymmetricPadding, optional): An instance of AsymmetricPadding.
-            Defaults to None.
-            text (bool): Flag indicating if the output should be treated as text.
-            Defaults to False.
+                Defaults to None.
+            text (bool, optional): Flag indicating if the output should be treated
+            as text.
+                Defaults to False.
 
         Returns:
             bytes or str: The plaintext.
+
         """
         # Defaults
         if padding is None:
@@ -443,15 +459,17 @@ class PrivateKey(Base):
         Args:
             message (bytes or str): The message to sign.
             hash_alg (str) – the hash algorithm.
-            Defaults to None.
+                Defaults to None.
             padding (AsymmetricPadding, optional): An instance of AsymmetricPadding.
-            Not in DSA.
-            Defaults to None.
-            pre_hashed (bool): Flag indicating the the message is a digest from
-            pre-hashed values (message too large). Defaults to False
+                Not in DSA.
+                Defaults to None.
+            pre_hashed (bool, optional): Flag indicating the the message is a digest
+                from pre-hashed values (message too large).
+                Defaults to False
 
         Returns:
             str: The signature in base64 format.
+
         """
         # Defaults
         if hash_alg is None:

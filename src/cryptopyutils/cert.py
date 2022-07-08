@@ -2,8 +2,9 @@
 """cert.py - x509 Certificates
 
 Class:
-- Commonx509: Build certificate attribute names and name attributes
-- Certificate : Load, generate, save x509 Certificates
+
+* Commonx509: Build certificate attribute names and name attributes
+* Certificate : Load, generate, save x509 Certificates
 
 """
 import base64
@@ -35,6 +36,7 @@ class _Commonx509:
 
         Returns:
             list: The list of x509.DNSName objects.
+
         """
         alt_names = []
         for dnsname in dns_names:
@@ -55,6 +57,7 @@ class _Commonx509:
 
         Returns:
             list: The list of x509.NameAttribute objects
+
         """
         nameattrs = []
         for item in name_attributes:
@@ -77,22 +80,25 @@ class Certificate(Base):
     """Certificate Object - extends Base
 
     Usage:
-    - initialize : c = Certificate(private_key=PrivateKey())
-    - generate cert : c.gen(**kwargs)
-    - generate self-signed cert : c.gen_self_signed(**kwargs)
-    - get certificate object : c.cert
-    - save cert: c.save(filepath)
-    - load cert: c.load(filepath)
+
+    * initialize : c = Certificate(private_key=PrivateKey())
+    * generate cert : c.gen(**kwargs)
+    * generate self-signed cert : c.gen_self_signed(**kwargs)
+    * get certificate object : c.cert
+    * save cert: c.save(filepath)
+    * load cert: c.load(filepath)
+
     """
 
     def __init__(self, **kwargs):
         """Certificate init
         Args:
             config (CertConfig, optional): The configuration.
-            private_key (PrivateKey): The private key. An instance of PrivateKey.
-            Defaults to None.
-            self_signed(bool): Is the certificate self_signed.
-            Defaults to False
+            private_key (PrivateKey, optional): The private key. An instance of PrivateKey.
+                Defaults to None.
+            self_signed(bool, optional): Is the certificate self_signed.
+                Defaults to False
+
         """
         super().__init__(**kwargs)
         # configuration
@@ -117,6 +123,7 @@ class Certificate(Base):
 
         Returns:
             Cryptography Certificate: An instance of Certificate from Cryptography
+
         """
         return self._cert
 
@@ -125,7 +132,9 @@ class Certificate(Base):
         """Set the cert with a pre-existing Cryptography Certificate
 
         Args:
-            cert (Cryptography Certificate): An instance of Certificate from Cryptography
+            cert (Cryptography Certificate): An instance of Certificate from
+            Cryptography
+
         """
         self._cert = cert
 
@@ -135,6 +144,7 @@ class Certificate(Base):
 
         Returns:
            PrivateKey : An instance of PrivateKey
+
         """
         return self._private_key
 
@@ -144,6 +154,7 @@ class Certificate(Base):
 
         Args:
             key (PrivateKey): An instance of PrivateKey
+
         """
         self._private_key = key
 
@@ -163,33 +174,35 @@ class Certificate(Base):
         """Generate a x509 certificate
 
         Args:
-            issuer: dict(str): The issuer informations needed to generate
+            issuer: dict(str, optional): The issuer informations needed to generate
             the certificate.
-            Defaults to None.
-            subject: dict(str): The subject informations needed to generate
+                Defaults to None.
+            subject: dict(str, optional): The subject informations needed to generate
             the certificate.
-            Defaults to None.
+                Defaults to None.
             dns_names (list(str), optional): A list of DNS Names.
-            Defaults to None.
-            ip_addresses: list(str): A list of IP addresses.
-            Defaults to None.
-            expiration_days (int): Number of days until the certificate expires.
-            Defaults to None.
-            critical (bool): Set to True if the extension must be understood and
-            handled by whoever reads the certificate.
-            Defaults to None.
-            hash_alg (str): The Hash algorithm.
-            Defaults to None.
-            cert_auth (bool): Whether the certificate can sign certificates.
-            Defaults to None.
-            path_length (int or None): The maximum path length for certificates
-            subordinate to this certificate. This attribute only has meaning if
-            cert_auth is true. If cert_auth is true then a path length of None means
-            there’s no restriction on the number of subordinate CAs in the certificate
-            chain. If it is zero or greater then it defines the maximum length for a
-            subordinate CA’s certificate chain. For example, a path_length of 1 means
-            the certificate can sign a subordinate CA, but the subordinate CA is not
-            allowed to create subordinates with ca set to true. Defaults to 1.
+                Defaults to None.
+            ip_addresses: list(str, optional): A list of IP addresses.
+                Defaults to None.
+            expiration_days (int, optional): Number of days until the certificate expires.
+                Defaults to None.
+            critical (bool, optional): Set to True if the extension must be understood and
+                handled by whoever reads the certificate.
+                Defaults to None.
+            hash_alg (str, optional): The Hash algorithm.
+                Defaults to None.
+            cert_auth (bool, optional): Whether the certificate can sign certificates.
+                Defaults to None.
+            path_length (int, optional): The maximum path length for certificates
+                subordinate to this certificate. This attribute only has meaning if
+                cert_auth is true. If cert_auth is true then a path length of None
+                means there’s no restriction on the number of subordinate CAs in
+                the certificate chain. If it is zero or greater then it defines the
+                maximum length for a subordinate CA’s certificate chain. For example,
+                a path_length of 1 means the certificate can sign a subordinate CA,
+                but the subordinate CA is not allowed to create subordinates with
+                cert_auth set to true.
+                Defaults to None.
 
         """
         # defaults
@@ -269,35 +282,36 @@ class Certificate(Base):
         """Generate a self signed x509 certificate
 
         Args:
-            subject: dict(str): The issuer informations needed to generate
-            the certificate.
-            Subject also is the issuer for self-signed certificates.
-            Defaults to None.
-            subject: dict(str): The subject informations needed to generate
-            the certificate.
-            Defaults to None.
-            dns_names (list(str), optional): A list of DNS Names.
-            Defaults to None.
-            ip_addresses: list(str): A list of IP addresses.
-            Defaults to None.
-            expiration_days (int): Number of days until the certificate expires.
-            Defaults to None.
-            critical (bool): Set to True if the extension must be understood and handled
-            by whoever reads the certificate.
-            Defaults to True for self signed.
-            hash_alg (str): The Hash algorithm.
-            Defaults to None.
-            cert_auth (bool): Whether the certificate can sign certificates.
-            Defaults to False for self-signed certificate.
-            path_length (int or None): The maximum path length for certificates
-            subordinate to this certificate. This attribute only has meaning if
-            cert_auth is true. If cert_auth is true then a path length of None means
-            there’s no restriction on the number of subordinate CAs in the certificate
-            chain. If it is zero or greater then it defines the maximum length for a
-            subordinate CA’s certificate chain. For example, a path_length of 1 means
-            the certificate can sign a subordinate CA, but the subordinate CA is not
-            allowed to create subordinates with ca set to true. Defaults to 1.
-            Defaults None for self signed.
+            subject: dict(str, optional): The issuer informations needed to generate
+                the certificate. Subject also is the issuer for
+                self-signed certificates.
+                Defaults to None.
+            subject: dict(str, optional): The subject informations needed to generate
+                the certificate.
+                Defaults to None.
+            dns_names (list(str, optional): A list of DNS Names.
+                Defaults to None.
+            ip_addresses: list(str, optional): A list of IP addresses.
+                Defaults to None.
+            expiration_days (int, optional): Number of days until the certificate expires.
+                Defaults to None.
+            critical (bool, optional): Set to True if the extension must be understood and
+                handled by whoever reads the certificate.
+                Defaults to True, for self signed.
+            hash_alg (str, optional): The Hash algorithm.
+                Defaults to None.
+            cert_auth (bool, optional): Whether the certificate can sign certificates.
+                Defaults to False for self-signed certificate.
+            path_length (int, optional): The maximum path length for certificates
+                subordinate to this certificate. This attribute only has meaning if
+                cert_auth is true. If cert_auth is true then a path length of None
+                means there’s no restriction on the number of subordinate CAs in
+                the certificate chain. If it is zero or greater then it defines the
+                maximum length for a subordinate CA’s certificate chain. For example,
+                a path_length of 1 means the certificate can sign a subordinate CA,
+                but the subordinate CA is not allowed to create subordinates with
+                cert_auth set to true.
+                Defaults to None, for self-signed
         """
         # Flag as self signed
         self._self_signed = True
@@ -327,15 +341,16 @@ class Certificate(Base):
         Args:
             path(str): The file path where the certificate will be saved.
             file_mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+                Defaults to None.
             encoding (str, optional): Encoding PEM or DER.
-            Defaults to None.
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         # Defaults
         if file_mode is None:
@@ -367,42 +382,38 @@ class Certificate(Base):
         """Write our PEM x509 certificate out to disk
 
         Args:
-            path(str, optional): The file path where the certificate will be saved.
-            Default is None (will generate a temporary file).
-            out_dir(str, optional): The directory path.
-            Defaults to None.
-            mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+            path(str): The file path where the certificate will be saved.
+            file_mode (byte, optional): The file mode (chmod).
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
-            to overwrite.
+                to overwrite.
+
         """
         return self.save(path, file_mode, "PEM", force)
 
     def save_der(
         self,
-        path=None,
+        path,
         file_mode=None,
         force=False,
     ):
         """Write our DER x509 certificate out to disk
 
         Args:
-            path(str, optional): The file path where the certificate will be saved.
-            Default is None (will generate a temporary file).
-            out_dir(str, optional): The directory path.
-            Defaults to None.
-            mode (byte, optional): The file mode (chmod).
-            Defaults to None.
+            path(str): The file path where the certificate will be saved.
+            file_mode (byte, optional): The file mode (chmod).
+                Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to False.
+                Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
             to overwrite.
+
         """
         return self.save(path, file_mode, "DER", force)
 
@@ -413,7 +424,8 @@ class Certificate(Base):
         Args:
             path (str): The file path where the certificate is saved.
             encoding (str, optional): Encoding PEM or DER.
-            Defaults to None.
+                Defaults to None.
+
         """
         # Defaults
         if encoding is None:
@@ -430,7 +442,7 @@ class Certificate(Base):
         """Load the PEM x509 certificate from the disk
 
         Args:
-            filepath (str): The file path where the certificate is saved.
+            path (str): The file path where the certificate is saved.
         """
         self.load(path, "PEM")
 
@@ -439,6 +451,7 @@ class Certificate(Base):
 
         Args:
             path (str): The file path where the certificate is saved.
+
         """
         self.load(path, "DER")
 
@@ -452,11 +465,12 @@ class Certificate(Base):
 
         Args:
             path (str): path to the base64 encoded PEM certificate file
-            hash_alg (HashAlgorithm) – An instance of HashAlgorithm.
-            Defaults to None.
-            b64output (bool): If True, output is base64 format.
-            If false, output is represented as heximals.
-            Defaults to False
+            hash_alg (HashAlgorithm, optional) – An instance of HashAlgorithm.
+                Defaults to None.
+            b64output (bool, optional): If True, output is base64 format.
+                If false, output is represented as heximals.
+                Defaults to False
+
         """
         # Defaults
         if hash_alg is None:

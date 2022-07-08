@@ -10,6 +10,7 @@ def prep_dir_path(path):
 
     Args:
         path (str): directory path
+
     """
     path1 = os.path.expanduser(path)
     path1 = os.path.expandvars(path1)
@@ -25,6 +26,7 @@ def mkdir(folder):
 
     Args:
         dir(str): A directory path to create
+
     """
     dir1 = prep_dir_path(folder)
     if not os.path.exists(dir1):
@@ -36,6 +38,7 @@ def rmdir(folder):
 
     Args:
         dir(str): A directory path to remove
+
     """
     dir1 = prep_dir_path(folder)
     if os.path.exists(dir1):

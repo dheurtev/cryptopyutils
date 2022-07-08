@@ -4,4 +4,5 @@
 License
 =======
 
-.. include:: ../LICENSE.txt
+.. raw:: txt
+    :file: ../LICENSE.txt

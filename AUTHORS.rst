@@ -2,4 +2,4 @@
 Contributors
 ============
 
-* david HEURTEVENT <david@heurtevent.org>
+* David HEURTEVENT <david@heurtevent.org>

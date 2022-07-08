@@ -13,11 +13,12 @@ def compare_bytes(left, right):
     Uses constant times to prevent timing attacks.
 
     Args:
-        left (bytes): left series of bytes
-        right (bytes): right series of bytes
+        left (bytes): left series of bytes.
+        right (bytes): right series of bytes.
 
     Returns:
-        bool: True if equal, False if not equal
+        bool: True if equal, False if not equal.
+
     """
     return constant_time.bytes_eq(left, right)
 
@@ -26,7 +27,8 @@ def private_alg(passphrase):
     """Private algorithm
 
     Args:
-        passphrase (str): Key password / passphrase string
+        passphrase (str): Key password / passphrase string.
+
     """
     if passphrase is None:
         # no passphrase
@@ -42,10 +44,11 @@ def convert_passphrase(passphrase):
     """Converts the passphrase if needed
 
     Args:
-        passphrase (str): Key password / passphrase string
+        passphrase (str): Key password / passphrase string.
 
     Returns:
-        None or bytes
+        None or bytes.
+
     """
     if passphrase is None:
         return None
@@ -58,10 +61,12 @@ def file_encoding(encoding=None):
 
     Args:
         encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
-        Defaults to None.
-        https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/
+            Defaults to None.
+            https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/
+
     Returns:
-        Encoding: A serialization Encoding object
+        Encoding: A serialization Encoding object.
+
     """
     enc = {
         "PEM": serialization.Encoding.PEM,
@@ -82,10 +87,12 @@ def private_format(fmt=None):
 
     Args:
         fmt (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
-        Defaults to None.
-        https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/
+            Defaults to None.
+            https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/
+
     Returns:
-        PrivateFormat: A serialization PrivateFormat object
+        PrivateFormat: A serialization PrivateFormat object.
+
     """
     formats = {
         "PKCS1": serialization.PrivateFormat.TraditionalOpenSSL,
@@ -104,10 +111,11 @@ def public_format(fmt=None):
 
     Args:
         fmt (str, optional): Format : SubjectPublicKeyInfo, PKCS1 or OpenSSH
-        or Raw or CompressedPoint or UncompressedPoint.
-        Defaults to None.
+            or Raw or CompressedPoint or UncompressedPoint.
+            Defaults to None.
+
     Returns:
-        PublicFormat: A serialization PublicFormat object
+        PublicFormat: A serialization PublicFormat object.
     """
     formats = {
         "PKCS1": serialization.PublicFormat.PKCS1,
@@ -131,7 +139,8 @@ def ellipctic_curve(name=None):
         Defaults to None.
 
     Returns:
-        EllipticCurve: An instance of the Elliptic Curve
+        EllipticCurve: An instance of the Elliptic Curve.
+
     """
     elipc = {
         "SECP192R1": ec.SECP384R1(),
@@ -162,13 +171,15 @@ def ellipctic_curve(name=None):
 
 def hash_algorithm(alg=None):
     """Returns the HashAlgorithm object for a given algorithm
+
     https://cryptography.io/en/latest/hazmat/primitives/cryptographic-hashes
+
     Args:
         alg (str): The hashing algorithm.
-        Defaults to None.
+            Defaults to None.
 
     Returns:
-        HashAlgorithm: An instance of HashAlgorithm
+        HashAlgorithm: An instance of HashAlgorithm.
 
     """
     hashalgs = {
@@ -201,7 +212,8 @@ def oaep_mgf1_padding(hash_alg=None):
 
     Args:
         hash_alg (str, optional): the name of the hash algorithm.
-        Defaults to None.
+            Defaults to None.
+
     """
     pad = padding.OAEP(
         mgf=padding.MGF1(algorithm=hash_algorithm(hash_alg)),
@@ -216,7 +228,8 @@ def pss_mgf1_padding(hash_alg=None):
 
     Args:
         hash_alg (str, optional): the name of the hash algorithm.
-        Defaults to None.
+            Defaults to None.
+
     """
     pad = padding.PSS(
         mgf=padding.MGF1(hash_algorithm(hash_alg)),
