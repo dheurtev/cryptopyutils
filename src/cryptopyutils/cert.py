@@ -58,7 +58,7 @@ class _Commonx509:
         """
         nameattrs = []
         for item in name_attributes:
-            oid = NameOID.__getattribute__(item)
+            oid = NameOID().__getattribute__(item)
             nameattrs.append(x509.NameAttribute(oid, name_attributes[item]))
         return nameattrs
 
@@ -100,6 +100,42 @@ class Certificate(Base):
         # cert
         if not hasattr(self, "cert"):
             self._cert = kwargs.pop("cert", None)
+
+    @property
+    def cert(self):
+        """Get the cert attribute
+
+        Returns:
+            Cryptography Certificate: An instance of Certificate from Cryptography
+        """
+        return self._cert
+
+    @cert.setter
+    def cert(self, cert):
+        """Set the cert with a pre-existing Cryptography Certificate
+
+        Args:
+            cert (Cryptography Certificate): An instance of Certificate from Cryptography
+        """
+        self._cert = cert
+
+    @property
+    def private_key(self):
+        """Get the private_key attribute
+
+        Returns:
+           PrivateKey : An instance of PrivateKey
+        """
+        return self._private_key
+
+    @private_key.setter
+    def private_key(self, key):
+        """Set the key with a pre-existing private key
+
+        Args:
+            key (PrivateKey): An instance of PrivateKey
+        """
+        self._private_key = key
 
     # Generate
     def gen(
@@ -253,6 +289,8 @@ class Certificate(Base):
             allowed to create subordinates with ca set to true. Defaults to 1.
             Defaults None for self signed.
         """
+        # Flag as self signed
+        self._self_signed = True
         # subject and issuers are the same
         self.gen(
             subject,
@@ -265,7 +303,6 @@ class Certificate(Base):
             certh_auth,
             path_length,
         )
-        self._self_signed = True
 
     # Save
     def save(
