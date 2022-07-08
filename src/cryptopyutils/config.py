@@ -360,6 +360,8 @@ class SSHKeyPairConfig(Base):
         self.set_host_dir()
         # Variables
         self.dsa_key_size = 1024
+        # Hash algorithm
+        self.hash_alg = kwargs.pop("hash_alg", "SHA-256")
 
     def set_user_dir(self, path=None):
         """Set the SSH user directory

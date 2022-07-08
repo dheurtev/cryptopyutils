@@ -38,8 +38,7 @@ class PrivateKey(Base):
         Args:
             config (PrivateKeyConfig, optional): The configuration.
             key (PrivateKey, optional): The private key. An instance of RSAPrivateKey
-            or other cryptography
-            private key object etc.
+            or other cryptography private key object.
         """
         super().__init__(**kwargs)
         # configuration

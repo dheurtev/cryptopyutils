@@ -26,13 +26,13 @@ class PublicKey(Base):
     """Public Key Class - extends Base
 
     Usage:
-    - initialize : pk = PublicKey(PublicKey()) or pk = PublicKey()
-                or pk = PublicKey(private_key=PrivateKey())
-    - generate the key: pk.gen()
-    - save key: pk.save(filepath)
-    - load key: pk.load(filepath)
-    - decrypt: pk.decrypt(ciphertext)
-    - verify: pk.verify(signature, message)
+    - initialize : pubk = PublicKey(PublicKey()) or pk = PublicKey()
+                or pubk = PublicKey(private_key=PrivateKey())
+    - generate the key: pubk.gen()
+    - save key: pubk.save(filepath)
+    - load key: pubk.load(filepath)
+    - decrypt: pubk.decrypt(ciphertext)
+    - verify: pubk.verify(signature, message)
     """
 
     def __init__(self, **kwargs):

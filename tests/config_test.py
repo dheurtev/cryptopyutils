@@ -157,6 +157,7 @@ def test_sshkey_pair_config():
     """Test SSHKeyPair Config"""
     alpha = config.SSHKeyPairConfig()
     assert alpha.dsa_key_size == 1024
+    assert hasattr(alpha, "hash_alg")
     assert hasattr(alpha, "user_dir")
     assert alpha.user_dir.index(".ssh") > -1
     assert hasattr(alpha, "host_dir")
