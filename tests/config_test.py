@@ -120,7 +120,7 @@ def test_cert_config():
     assert hasattr(alpha, "file_mode")
     assert hasattr(alpha, "encoding")
     assert hasattr(alpha, "expiration_days")
-    assert hasattr(alpha, "cert_ca")
+    assert hasattr(alpha, "cert_auth")
     assert hasattr(alpha, "dns_names")
     assert hasattr(alpha, "ip_addrs")
     assert hasattr(alpha, "critical")
@@ -132,7 +132,7 @@ def test_cert_config_self_signed():
     """Test CertConfig with self signed"""
     alpha = config.CertConfig(self_signed=True)
     assert alpha.self_signed is True
-    assert alpha.cert_ca is False
+    assert alpha.cert_auth is False
     assert alpha.path_length is None
     assert alpha.dns_names == ["localhost", "127.0.0.1"]
     assert alpha.ip_addrs == ["127.0.0.1"]

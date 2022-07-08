@@ -270,9 +270,9 @@ class CertConfig(X509Config):
         # Certificate authority : False = Not a certificat authority,
         # cannot sign other certificates
         if self.self_signed:
-            self.cert_ca = kwargs.pop("cert_ca", False)
+            self.cert_auth = kwargs.pop("cert_auth", False)
         else:
-            self.cert_ca = kwargs.pop("cert_ca", True)
+            self.cert_auth = kwargs.pop("cert_auth", True)
         # Default DNS Names
         if self.self_signed:
             # Bug fix: 127.0.0.1 needed in DNS names
@@ -290,10 +290,20 @@ class CertConfig(X509Config):
         # Critical: Are DNS Names and IP Addrs an important part of the certificate
         self.critical = kwargs.pop("critical", True)
         # Path Length : Can be 1 if CA=True
-        if self.cert_ca:
+        if self.cert_auth:
             self.path_length = kwargs.pop("path_length", 1)
         else:
             self.path_length = kwargs.pop("path_length", None)
+        self.issuer = {
+            "COMMON_NAME": "www.example.com",
+            "LOCALITY_NAME": "San Francisco",
+            "STATE_OR_PROVINCE_NAME": "California",
+            "ORGANIZATION_NAME": "Example inc",
+            "ORGANIZATIONAL_UNIT_NAME": "Example Division",
+            "COUNTRY_NAME": "US",
+            "STREET_ADDRESS": "0000 Acme Road",
+        }
+        self.subject = self.issuer
 
     def set_cert_dir(self, path=None):
         """Set the SSL Certificate directory
