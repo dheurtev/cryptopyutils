@@ -1,0 +1,66 @@
+
+
+# Define your subject details
+# Required fields indicated based on https://knowledge.digicert.com/generalinformation/INFO1745.html
+#list of DNS Names for the certificate
+dnsnames:
+  - localhost
+  - example.com
+#localhost ipv4 address. You should add your server IPv4 address.
+ipaddresses:
+  - 127.0.0.1
+subject :
+# common name (typically your DNS) [Required]
+  COMMON_NAME: www.example.com
+# country [Required] (ISO 2 letters country code)
+  COUNTRY_NAME: US
+# city [Required]
+  LOCALITY_NAME: San Francisco
+# state or province [Required] (must be spelled out)
+  STATE_OR_PROVINCE_NAME: California
+# street address
+  STREET_ADDRESS: 1000 ACME Road
+# organization name (legal name) [Required]
+  ORGANIZATION_NAME: Example inc
+# organizational unit name
+  ORGANIZATIONAL_UNIT_NAME: Example division
+# serial number
+  SERIAL_NUMBER:
+# surname
+  SURNAME:
+# given name
+  GIVEN_NAME:
+# title
+  TITLE:
+# generation qualifier
+  GENERATION_QUALIFIER:
+# X500 unique identifier
+  X500_UNIQUE_IDENTIFIER:
+# dn qualifier
+  DN_QUALIFIER:
+# pseudonym
+  PSEUDONYM:
+# userid
+  USER_ID:
+# domain name [optional]
+  DOMAIN_COMPONENT:
+# domain name
+  - example
+# extention
+  - com
+# email
+  EMAIL_ADDRESS: email@example.com
+# Jurisdiction country name (ISO 2 letters country code)
+  JURISDICTION_COUNTRY_NAME:
+# Jurisdiction locality name
+  JURISDICTION_LOCALITY_NAME:
+# Jurisdiction state or province name (must be spelled out)
+  JURISDICTION_STATE_OR_PROVINCE_NAME:
+# Business Category
+  BUSINESS_CATEGORY:
+# Postal Address
+  POSTAL_ADDRESS:
+# Postal Code
+  POSTAL_CODE:
+# Unstructure name
+  UNSTRUCTURED_NAME:

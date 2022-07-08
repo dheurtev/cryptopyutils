@@ -190,7 +190,7 @@ class PublicKey(Base):
         encoding=None,
         file_format=None,
         file_mode=None,
-        force=True,
+        force=False,
     ):
         """Save the public key to file
 
@@ -241,7 +241,7 @@ class PublicKey(Base):
         path,
         file_format=None,
         file_mode=None,
-        force=True,
+        force=False,
     ):
         """Save a PEM private key
 
@@ -253,7 +253,7 @@ class PublicKey(Base):
             file_mode (byte, optional): The file mode (chmod).
             Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to True.
+            Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
@@ -266,7 +266,7 @@ class PublicKey(Base):
         path,
         file_format=None,
         file_mode=None,
-        force=True,
+        force=False,
     ):
         """Save a DER private key
 
@@ -278,7 +278,7 @@ class PublicKey(Base):
             file_mode (byte, optional): The file mode (chmod).
             Defaults to None.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to True.
+            Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced

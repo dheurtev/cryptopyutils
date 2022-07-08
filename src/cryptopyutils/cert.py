@@ -58,8 +58,18 @@ class _Commonx509:
         """
         nameattrs = []
         for item in name_attributes:
-            oid = NameOID().__getattribute__(item)
-            nameattrs.append(x509.NameAttribute(oid, name_attributes[item]))
+            val = name_attributes[str(item)]
+            # ignore empty values
+            if val is not None and val != "None" and val != "" and val != " ":
+                # split multiple values
+                if isinstance(val, list):
+                    for elem in val:
+                        oid = NameOID().__getattribute__(str(item))
+                        nameattrs.append(x509.NameAttribute(oid, elem))
+                # normal case
+                else:
+                    oid = NameOID().__getattribute__(str(item))
+                    nameattrs.append(x509.NameAttribute(oid, str(val)))
         return nameattrs
 
 
@@ -310,7 +320,7 @@ class Certificate(Base):
         path,
         file_mode=None,
         encoding=None,
-        force=True,
+        force=False,
     ):
         """Write our x509 certificate out to disk
 
@@ -352,7 +362,7 @@ class Certificate(Base):
         self,
         path,
         file_mode=None,
-        force=True,
+        force=False,
     ):
         """Write our PEM x509 certificate out to disk
 
@@ -364,7 +374,7 @@ class Certificate(Base):
             mode (byte, optional): The file mode (chmod).
             Defaults to the DEFAULT_X509_CERT_MODE value set in the config.py file.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to True.
+            Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
@@ -376,7 +386,7 @@ class Certificate(Base):
         self,
         path=None,
         file_mode=None,
-        force=True,
+        force=False,
     ):
         """Write our DER x509 certificate out to disk
 
@@ -388,7 +398,7 @@ class Certificate(Base):
             mode (byte, optional): The file mode (chmod).
             Defaults to the DEFAULT_X509_CERT_MODE value set in the config.py file.
             force (bool, optional): Force to replace file if already exists.
-            Defaults to True.
+            Defaults to False.
 
         Returns:
             bool: True if successful. False if already exists and not forced
