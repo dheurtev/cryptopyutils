@@ -7,7 +7,7 @@ The following scripts and examples are showing the capabilities of cryptopyutils
 ### CLI Scripts
 /cli folder
 
-#### sshkeygenpair.py : openSSH key pair generator CLI
+#### sshkeypairgen.py : openSSH key pair generator CLI
 This script is a basic CLI in the spirit of ssh-keygen.
 By default:
 - It generates user files (id_[alg] and id_[alg].pub). With the option -s, it can generate host files (ssh_host_*).
@@ -24,17 +24,17 @@ Usage:
 
 Example 1: generate a default 4096 bits RSA keypair in your user directory
 ``sh
-python sshkeygenpair.py -c root@example.com
+python sshkeypairgen.py -c root@example.com
 ``
 
 Example 1: generate a 2048 bits RSA keypair in the ~/mydir folder with overwriting rights
 ``sh
-python sshkeygenpair.py -t rsa -b 2048 -c root@example.com  -d ~/mydir --force
+python sshkeypairgen.py -t rsa -b 2048 -c root@example.com  -d ~/mydir --force
 ``
 
 Example 2: generate a ED25519 file keypair with as pword
 ``sh
-python sshkeygenpair.py -t ed25519 -c root@example.com -d ~/mydir -p
+python sshkeypairgen.py -t ed25519 -c root@example.com -d ~/mydir -p
 ``
 
 #### askpgen.py : Asymmetric key pair generator CLI

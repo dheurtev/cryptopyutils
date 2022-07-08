@@ -343,7 +343,7 @@ class SSHKeyPair(Base):
         status = self.save_private_key(pkfp, passphrase, file_mode, force)
         # return False if private key not saved
         if status is False:
-            return [False, None], [None, None]
+            return [False, None], [pkfp, None]
         # generate the public key
         self.gen_public_key()
         # generate public key filepath
@@ -352,6 +352,6 @@ class SSHKeyPair(Base):
         status_pub = self.save_public_key(pubkfp, file_mode, force, comment)
         # return False if public key not saved
         if status_pub is False:
-            return [True, False], [pkfp, None]
+            return [True, False], [pkfp, pubkfp]
         # else return
         return [True, True], [pkfp, pubkfp]
