@@ -11,7 +11,6 @@ from cryptography.x509.oid import AttributeOID
 from . import files
 from . import utils
 from .cert import _Commonx509
-from .cert import Cert
 from .config import Base
 from .config import CSRConfig
 
@@ -59,10 +58,10 @@ class CSR(Base):
 
     @csr.setter
     def csr(self, csr):
-        """Set the csr with a pre-existing CSR Certificate
+        """Set the csr with a pre-existing CSR
 
         Args:
-            csr (Cryptography Certificate): An instance of CSR from Cryptography
+            csr (Cryptography CSR): An instance of CSR from Cryptography
         """
         self._csr = csr
 

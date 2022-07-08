@@ -25,12 +25,12 @@ class PrivateKey(Base):
     """PrivateKey class - extends Base
 
     Usage (minimum requirements):
-    - initialize : pk = PrivateKey() or pk = PrivateKey(PrivateKey())
-    - generate key: pk.gen(alg)
-    - save key: pk.save(filepath)
-    - load key: pk.load(filepath)
-    - decrypt: pk.decrypt(ciphertext)
-    - sign: pk.sign(message)
+    - initialize : privk = PrivateKey() or privk = PrivateKey(PrivateKey())
+    - generate key: privk.gen(alg)
+    - save key: privk.save(filepath)
+    - load key: privk.load(filepath)
+    - decrypt: privk.decrypt(ciphertext)
+    - sign: privk.sign(message)
     """
 
     def __init__(self, **kwargs):
