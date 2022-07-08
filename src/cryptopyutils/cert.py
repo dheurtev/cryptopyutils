@@ -370,9 +370,9 @@ class Certificate(Base):
             path(str, optional): The file path where the certificate will be saved.
             Default is None (will generate a temporary file).
             out_dir(str, optional): The directory path.
-            Defaults to the DEFAULT_OUTPUT_DIRECTORY value set in the config.py file.
+            Defaults to None.
             mode (byte, optional): The file mode (chmod).
-            Defaults to the DEFAULT_X509_CERT_MODE value set in the config.py file.
+            Defaults to None.
             force (bool, optional): Force to replace file if already exists.
             Defaults to False.
 
@@ -394,9 +394,9 @@ class Certificate(Base):
             path(str, optional): The file path where the certificate will be saved.
             Default is None (will generate a temporary file).
             out_dir(str, optional): The directory path.
-            Defaults to the DEFAULT_OUTPUT_DIRECTORY value set in the config.py file.
+            Defaults to None.
             mode (byte, optional): The file mode (chmod).
-            Defaults to the DEFAULT_X509_CERT_MODE value set in the config.py file.
+            Defaults to None.
             force (bool, optional): Force to replace file if already exists.
             Defaults to False.
 

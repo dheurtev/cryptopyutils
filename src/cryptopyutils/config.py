@@ -247,6 +247,17 @@ class X509Config(AsymConfig):
         super().__init__(**kwargs)
         # Projet configuration
         self.asymconfig = kwargs.pop("asymconfig", AsymConfig())
+        # Issuer
+        self.issuer = {
+            "COMMON_NAME": "www.example.com",
+            "LOCALITY_NAME": "San Francisco",
+            "STATE_OR_PROVINCE_NAME": "California",
+            "ORGANIZATION_NAME": "Example inc",
+            "ORGANIZATIONAL_UNIT_NAME": "Example Division",
+            "COUNTRY_NAME": "US",
+            "STREET_ADDRESS": "0000 Acme Road",
+        }
+        self.subject = self.issuer
 
 
 class CertConfig(X509Config):
@@ -294,16 +305,6 @@ class CertConfig(X509Config):
             self.path_length = kwargs.pop("path_length", 1)
         else:
             self.path_length = kwargs.pop("path_length", None)
-        self.issuer = {
-            "COMMON_NAME": "www.example.com",
-            "LOCALITY_NAME": "San Francisco",
-            "STATE_OR_PROVINCE_NAME": "California",
-            "ORGANIZATION_NAME": "Example inc",
-            "ORGANIZATIONAL_UNIT_NAME": "Example Division",
-            "COUNTRY_NAME": "US",
-            "STREET_ADDRESS": "0000 Acme Road",
-        }
-        self.subject = self.issuer
 
     def set_cert_dir(self, path=None):
         """Set the SSL Certificate directory
@@ -336,8 +337,6 @@ class CSRConfig(X509Config):
         self.dns_names = kwargs.pop("dns_names", [])
         # Default IP addresses
         self.ip_addrs = kwargs.pop("ip_addrs", [])
-        # Critical: Are DNS Names and IP Addrs an important part of the certificate
-        self.critical = kwargs.pop("critical", True)
 
     def set_csr_dir(self, path=None):
         """Set the SSL CSR directory
