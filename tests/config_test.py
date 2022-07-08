@@ -149,7 +149,6 @@ def test_csr_config():
     assert hasattr(alpha, "encoding")
     assert hasattr(alpha, "dns_names")
     assert hasattr(alpha, "ip_addrs")
-    assert hasattr(alpha, "critical")
     assert alpha.csr_dir.index("csr") > -1
 
 

@@ -10,7 +10,7 @@ def test_ssl_dir_created_removed():
     """Test tmp dir created then removed"""
     tmpdir = "/tmp/test/ssl"
     # test does not exist
-    os.removedirs(tmpdir)
+    dirs.rmdir(tmpdir)
     assert not os.path.exists(tmpdir)
     # create
     dirs.mkdir(tmpdir)

@@ -48,11 +48,11 @@ def test_gen_and_save_():
     # generate the private key
     privk = PrivateKey()
     privk.gen()
-    pubk = PublicKey(private_key=privk, force=True)
+    pubk = PublicKey(private_key=privk)
     pubk.gen()
     # save the public key
     filepath = "/tmp/www.example.com.pem"
-    status = pubk.save(path=filepath, file_mode=0o700)
+    status = pubk.save(path=filepath, file_mode=0o700, force=True)
     assert status
     # test that the file exists
     assert os.path.exists(filepath)

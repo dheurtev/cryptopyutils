@@ -43,13 +43,13 @@ def test_gen_and_save():
     if os.path.exists(filepath):
         os.remove(filepath)
     # save
-    status = privk.save(filepath, file_format="PKCS1")
+    status = privk.save(filepath, file_format="PKCS1", force=True)
     assert status
     # test that the file exists
     assert os.path.exists(filepath)
     # test that the chmod is correct
     stat = os.stat(filepath)
-    assert stat.st_mode == 0o100700
+    assert stat.st_mode == 0o100600
     # test the content
     data = files.read(filepath)
     pemlines = str(data)
