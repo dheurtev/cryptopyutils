@@ -110,7 +110,7 @@ python csrgen.py -f ../others/keys/rsa_priv.pem -n www.example.com -y certconfig
 ``
 #### Passwords
 
-WARNING : DO NOT USE THE -a option ON PRODUCTION SERVERS.
+WARNING : DO NOT USE THE -a option IN A PRODUCTION ENVIRONMENT.
 SECRETS WOULD BE STORED in various places, including /proc, process list (ps), logs(/var/log) and in the user's history list.
 
 ##### pwdenc.py : Password encryption CLI
