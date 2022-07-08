@@ -241,7 +241,6 @@ class PrivateKey(Base):
 
         if file_format is None:
             file_format = self._config.file_format
-
         # Encode
         data = self._key.private_bytes(
             encoding=utils.file_encoding(encoding),

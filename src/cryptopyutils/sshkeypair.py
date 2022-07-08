@@ -44,7 +44,7 @@ class SSHKeyPair(Base):
             self._public_key = kwargs.pop("public_key", PublicKey())
         # alg object
         if not hasattr(self, "alg"):
-            self._alg = kwargs.pop("alg", "RSA")
+            self._alg = kwargs.pop("alg", "RSA").upper()
 
     @property
     def public_key(self):
@@ -110,14 +110,18 @@ class SSHKeyPair(Base):
         # handle the algorithm
         if self._alg is None:
             alg = alg.upper()  # Correct some input mistakes
-            if alg in ["RSA", "ED25519", "DSA", "EC"]:
+            if alg in ["RSA", "ED25519", "DSA", "EC", "ECDSA"]:
                 self._alg = alg
             else:
                 raise Exception("SSH algorithm not supported by cryptopyutils")
+        # ECDSA
+        if self._alg == "ECDSA":
+            self._alg = "EC"
         # DSA
-        if alg == "DSA":
+        if self._alg == "DSA":
             key_size = self._config.dsa_key_size
-        # generate the private key
+
+        # Generate the private key
         self._private_key.gen(self._alg, key_size, public_exponent, curve)
 
     def save_private_key(
@@ -245,9 +249,9 @@ class SSHKeyPair(Base):
         fingerp = base64.b64encode(digest.finalize()).decode()
         fingerp = fingerp.replace("=", "")
         # remove the dash  in the hash algorithm
-        h = str(hash_alg).replace("-", "")
+        hash = str(hash_alg).replace("-", "")
         # return the fingerpring
-        return h + ":" + fingerp
+        return hash + ":" + fingerp
 
     # Key pair
 
@@ -293,6 +297,7 @@ class SSHKeyPair(Base):
         Returns:
             [bool, bool]: True if successful. False if already exists and not forced
             to overwrite.
+            [str, str]: File path
         """
         # algorithm supported
         if alg not in ["RSA", "ED25519", "ECDSA", "DSA"]:
@@ -308,14 +313,14 @@ class SSHKeyPair(Base):
 
         # private key files
         # case of elliptic curves
-        if alg == "RSA":
+        if self._alg == "RSA":
             pkfp = os.path.join(out_dir, "id_rsa")
             # generate and save the private key
             self.gen_private_key("RSA", key_size, public_exponent)
-        elif alg == "ED25519":
+        elif self._alg == "ED25519":
             pkfp = os.path.join(out_dir, "id_ed25519")
             self.gen_private_key("ED25519")
-        elif alg == "ECDSA":
+        elif self._alg == "ECDSA":
             # Choose the proper elliptic curve
             curves = {
                 "256": "SECP256R1",
@@ -328,17 +333,17 @@ class SSHKeyPair(Base):
                 raise Exception("ECDSA curve not supported by cryptopyutils")
             pkfp = os.path.join(out_dir, "id_ecdsa")
             self.gen_private_key("EC", curve=curve)
-        elif alg == "DSA":
+        elif self._alg == "DSA":
             pkfp = os.path.join(out_dir, "id_dsa")
             self.gen_private_key("DSA")
         else:
             # Not supported
-            return [None, None]
+            return [None, None], [None, None]
         # save the private key
         status = self.save_private_key(pkfp, passphrase, file_mode, force)
         # return False if private key not saved
         if status is False:
-            return [False, None]
+            return [False, None], [None, None]
         # generate the public key
         self.gen_public_key()
         # generate public key filepath
@@ -347,6 +352,6 @@ class SSHKeyPair(Base):
         status_pub = self.save_public_key(pubkfp, file_mode, force, comment)
         # return False if public key not saved
         if status_pub is False:
-            return [True, False], [pkfp, ""]
+            return [True, False], [pkfp, None]
         # else return
         return [True, True], [pkfp, pubkfp]
