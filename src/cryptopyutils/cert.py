@@ -15,7 +15,6 @@ from cryptography import x509
 from cryptography.hazmat.primitives import hashes
 from cryptography.x509.oid import NameOID
 
-from . import dirs
 from . import files
 from . import utils
 from .config import Base
@@ -138,14 +137,13 @@ class Certificate(Base):
             cert_auth (bool): Whether the certificate can sign certificates.
             Defaults to None.
             path_length (int or None): The maximum path length for certificates
-            subordinate to this certificate. This attribute only has meaning if cert_auth
-            is true. If cert_auth is true then a path length of None means there’s no
-            restriction on the number of subordinate CAs in the certificate chain.
-            If it is zero or greater then it defines the maximum length for a
+            subordinate to this certificate. This attribute only has meaning if
+            cert_auth is true. If cert_auth is true then a path length of None means
+            there’s no restriction on the number of subordinate CAs in the certificate
+            chain. If it is zero or greater then it defines the maximum length for a
             subordinate CA’s certificate chain. For example, a path_length of 1 means
             the certificate can sign a subordinate CA, but the subordinate CA is not
-            allowed to create subordinates with ca set to true.
-            Defaults to None.
+            allowed to create subordinates with ca set to true. Defaults to 1.
 
         """
         # defaults
@@ -166,7 +164,7 @@ class Certificate(Base):
         if cert_auth is None:
             cert_auth = self._config.cert_auth
         if path_length is None:
-            if self._self_signed == False:
+            if not self._self_signed:
                 path_length = self._config.path_length
             else:
                 path_length = None
@@ -192,7 +190,8 @@ class Certificate(Base):
                 datetime.datetime.utcnow(),
             )
             .not_valid_after(
-                # Our certificate will be valid for the number of days set in expiration_days
+                # Our certificate will be valid for the number of days set
+                # in expiration_days
                 datetime.datetime.utcnow()
                 + datetime.timedelta(days=expiration_days),
             )
@@ -224,10 +223,12 @@ class Certificate(Base):
         """Generate a self signed x509 certificate
 
         Args:
-            subject: dict(str): The issuer informations needed to generate the certificate.
+            subject: dict(str): The issuer informations needed to generate
+            the certificate.
             Subject also is the issuer for self-signed certificates.
             Defaults to None.
-            subject: dict(str): The subject informations needed to generate the certificate.
+            subject: dict(str): The subject informations needed to generate
+            the certificate.
             Defaults to None.
             dns_names (list(str), optional): A list of DNS Names.
             Defaults to None.
@@ -235,36 +236,22 @@ class Certificate(Base):
             Defaults to None.
             expiration_days (int): Number of days until the certificate expires.
             Defaults to None.
-            critical (bool): Set to True if the extension must be understood and handled by whoever
-            reads the certificate.
+            critical (bool): Set to True if the extension must be understood and handled
+            by whoever reads the certificate.
             Defaults to True for self signed.
             hash_alg (str): The Hash algorithm.
             Defaults to None.
             cert_auth (bool): Whether the certificate can sign certificates.
-            Defaults to false for self signed.
-            path_length (int or None): The maximum path length for certificates subordinate to this
-            certificate. This attribute only has meaning if ca is true. If ca is true then a path
-            length of None means there’s no restriction on the number of subordinate CAs in the
-            certificate chain. If it is zero or greater then it defines the maximum length for a
-            subordinate CA’s certificate chain. For example, a path_length of 1 means the
-            certificate can sign a subordinate CA, but the subordinate CA is not allowed to create
-            subordinates with ca set to true.
+            Defaults to False for self-signed certificate.
+            path_length (int or None): The maximum path length for certificates
+            subordinate to this certificate. This attribute only has meaning if
+            cert_auth is true. If cert_auth is true then a path length of None means
+            there’s no restriction on the number of subordinate CAs in the certificate
+            chain. If it is zero or greater then it defines the maximum length for a
+            subordinate CA’s certificate chain. For example, a path_length of 1 means
+            the certificate can sign a subordinate CA, but the subordinate CA is not
+            allowed to create subordinates with ca set to true. Defaults to 1.
             Defaults None for self signed.
-
-                See /?highlight=hashes#module-cryptography.hazmat.primitives.hashes
-                Defaults to SHA256.
-            cert_auth (bool): Whether the certificate can sign certificates. Defaults to False for
-            self-signed certificate.
-            path_length (int or None): The maximum path length for certificates subordinate to this
-            certificate. This attribute only has meaning if ca is true. If ca is true then a path
-            length of None means there’s no restriction on the number of subordinate CAs in the
-            certificate chain. If it is zero or greater then it defines the maximum length for a
-            subordinate CA’s certificate chain. For example, a path_length of 1 means the
-            certificate can sign a subordinate CA, but the subordinate CA is not allowed to create
-            subordinates with ca set to true. Defaults to 1.
-
-        Returns:
-            x509.Certificate: The x509 Certificate. An instance of x509.Certificate.
         """
         # subject and issuers are the same
         self.gen(
@@ -279,7 +266,6 @@ class Certificate(Base):
             path_length,
         )
         self._self_signed = True
-        return self.cert
 
     # Save
     def save(
@@ -301,7 +287,8 @@ class Certificate(Base):
             Defaults to False.
 
         Returns:
-            bool: True if successful. False if already exists and not forced to overwrite.
+            bool: True if successful. False if already exists and not forced
+            to overwrite.
         """
         # Defaults
         if file_mode is None:
@@ -311,11 +298,11 @@ class Certificate(Base):
             encoding = self._config.encoding
 
         # encoding
-        enc = utils.encoding(encoding)
+        enc = utils.file_encoding(encoding)
         # serialize the certificate
         data = self._cert.public_bytes(enc)
         # early return no overwriting if exists and not forced
-        if files.file_exists(self.path) and (not force):
+        if files.file_exists(path) and (not force):
             return False
         # write file and create directories
         files.write(path, data)
@@ -343,8 +330,8 @@ class Certificate(Base):
             Defaults to True.
 
         Returns:
-            bool: True if successful. False if already exists and not forced to overwrite.
-            str: The filepath where the certificate has been saved.
+            bool: True if successful. False if already exists and not forced
+            to overwrite.
         """
         return self.save(path, file_mode, "PEM", force)
 
@@ -367,8 +354,8 @@ class Certificate(Base):
             Defaults to True.
 
         Returns:
-            bool: True if successful. False if already exists and not forced to overwrite.
-            str: The filepath where the certificate has been saved.
+            bool: True if successful. False if already exists and not forced
+            to overwrite.
         """
         return self.save(path, file_mode, "DER", force)
 
@@ -388,9 +375,9 @@ class Certificate(Base):
         data = files.read(path)
         # Load the file
         if encoding == "PEM":
-            self.cert = x509.load_pem_x509_certificate(data)
+            self._cert = x509.load_pem_x509_certificate(data)
         else:
-            self.cert = x509.load_der_x509_certificate(data)
+            self._cert = x509.load_der_x509_certificate(data)
 
     def load_pem(self, path):
         """Load the PEM x509 certificate from the disk
@@ -398,7 +385,7 @@ class Certificate(Base):
         Args:
             filepath (str): The file path where the certificate is saved.
         """
-        return self.load(path, "PEM")
+        self.load(path, "PEM")
 
     def load_der(self, path):
         """Load the DER x509 certificate from the disk
@@ -406,21 +393,22 @@ class Certificate(Base):
         Args:
             path (str): The file path where the certificate is saved.
         """
-        return self.load(path, "DER")
+        self.load(path, "DER")
 
     def hash_fingerprint_pem_cert(
         self,
         path,
-        hash_algorithm=None,
+        hash_alg=None,
         b64output=False,
     ):
         """Get the fingerprint of a base64 PEM certificate based on a hash function
 
         Args:
             path (str): path to the base64 encoded PEM certificate file
-            hash_algorithm (HashAlgorithm) – An instance of HashAlgorithm.
+            hash_alg (HashAlgorithm) – An instance of HashAlgorithm.
             Defaults to None.
-            b64output (bool): If True, output is base64 format. If false, output is represented as heximals.
+            b64output (bool): If True, output is base64 format.
+            If false, output is represented as heximals.
             Defaults to False
         """
         # Defaults
@@ -432,10 +420,11 @@ class Certificate(Base):
         data = data.replace("-----BEGIN CERTIFICATE-----\n", "")
         data = data.replace("-----END CERTIFICATE-----\n", "")
         # prepare the hash algorithm
-        digest = hashes.Hash(utils.hash_algorithm(alg=hash_algorithm))
+        digest = hashes.Hash(utils.hash_algorithm(alg=hash_alg))
         # convert the base64 data to bytes
         databytes = binascii.a2b_base64(data)
-        # compute the fingerprint, encode it to base 64, remove equal signs and add the hash alg
+        # compute the fingerprint, encode it to base 64, remove equal signs
+        # and add the hash alg
         digest.update(databytes)
         finaldigest = digest.finalize()
         if not b64output:
@@ -444,6 +433,6 @@ class Certificate(Base):
             fingerp = base64.b64encode(finaldigest).decode()
             fingerp = fingerp.replace("=", "")
         # remove the dash from the hash algoritm
-        hashalg = str(hash_algorithm).replace("-", "")
+        hashalg = str(hash_alg).replace("-", "")
         # return the output
         return hashalg + ":" + fingerp
