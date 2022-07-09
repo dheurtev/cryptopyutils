@@ -283,7 +283,8 @@ class SSHKeyPair(Base):
         """Generate the SSH key pair using RSA
 
         Args:
-            alg (str, optional): The key algorithm. RSA, ED25519, ECDSA and DSA (legacy) are supported. Defaults to `RSA`.
+            alg (str, optional): The key algorithm. RSA, ED25519, ECDSA and DSA
+                (legacy) are supported. Defaults to `RSA`.
             out_dir (str, optional): The output directory path.
                 Defaults to None.
             passphrase (str, optional): The passphrase.
@@ -301,13 +302,15 @@ class SSHKeyPair(Base):
             comment (str, optional): comment. Typically user@host format to be appended
                 at the end of the public key.
                 Defaults to None.
-            is_user (bool, optional): Is the key a user key (True) or a system key (False).
+            is_user (bool, optional): Is the key a user key (True) or a system key
+                (False).
                 Defaults to True.
 
         Returns:
-            [bool, bool]: True if successful. False if already exists and not forced
+            [bool, bool], [str, str]: The first is the private key, the second is the public key.
+                bool: True if successful. False if already exists and not forced
                 to overwrite.
-            [str, str]: File path
+                str: Private key and public key file pathes
 
         """
         # algorithm supported

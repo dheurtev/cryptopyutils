@@ -4,5 +4,13 @@
 License
 =======
 
-.. raw:: txt
-    :file: ../LICENSE.txt
+.. include:: ../LICENSE.txt
+    :literal:
+
+=======
+Notice
+=======
+
+.. _notice:
+
+.. include:: ../NOTICE

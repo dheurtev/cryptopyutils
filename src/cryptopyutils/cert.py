@@ -82,8 +82,8 @@ class Certificate(Base):
     Usage:
 
     * initialize : c = Certificate(private_key=PrivateKey())
-    * generate cert : c.gen(**kwargs)
-    * generate self-signed cert : c.gen_self_signed(**kwargs)
+    * generate cert : c.gen()
+    * generate self-signed cert : c.gen_self_signed()
     * get certificate object : c.cert
     * save cert: c.save(filepath)
     * load cert: c.load(filepath)

@@ -164,7 +164,7 @@ class PrivateKey(Base):
         Args:
             path(str): The file path of the key to be loaded.
                 Defaults to None.
-            encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
+            encoding (str, optional): Encoding PEM, DER or OpenSSH.
                 Defaults to None.
             passphrase (str, optional): The passphrase. Only for encrypted PEM or
                 openSSH files.
@@ -188,12 +188,6 @@ class PrivateKey(Base):
         elif encoding == "OpenSSH":
             lines = files.read(path)
             self._key = serialization.load_ssh_private_key(lines, pwd)
-        elif encoding == "RAW":
-            self._key = files.read(path)
-        elif encoding == "X962":
-            self._key = files.read(path)
-        elif encoding == "SMIME":
-            self._key = files.read(path, istext=True)
         else:
             self._key = files.read(path)
 
@@ -231,9 +225,9 @@ class PrivateKey(Base):
         * PKCS8 is the default (Traditional openSSL style is kept as legacy)
 
         Args:
-            encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
+            encoding (str, optional): Encoding PEM, DER or OpenSSH.
                 Defaults to None.
-            file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
+            file_format (str, optional): Format : PKCS8, PKCS1 or OpenSSH.
                 Defaults to None.
             passphrase (str, optional): The passphrase. Only for PEM.
                 Defaults to None.
@@ -248,6 +242,7 @@ class PrivateKey(Base):
 
         if file_format is None:
             file_format = self._config.file_format
+
         # Encode
         data = self._key.private_bytes(
             encoding=utils.file_encoding(encoding),
@@ -270,9 +265,9 @@ class PrivateKey(Base):
 
         Args:
             path (str): The file path where the private key will be saved.
-            encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
+            encoding (str, optional): Encoding PEM, DER or OpenSSH.
             Defaults to None.
-            file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
+            file_format (str, optional): Format : PKCS8, PKCS or OpenSSH.
             Defaults to None.
             passphrase (str, optional): The passphrase.
             Defaults to None.
@@ -292,7 +287,7 @@ class PrivateKey(Base):
         if files.file_exists(path) and (not force):
             return False
         # write the key content
-        if encoding in ["OpenSSH", "SMIME"]:
+        if encoding in ["OpenSSH"]:
             files.write(path, data, istext=True)
         else:
             files.write(path, data)
@@ -317,7 +312,7 @@ class PrivateKey(Base):
 
         Args:
             path (str): The file path where the private key will be saved.
-            file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
+            file_format (str, optional): Format : PKCS8, PKCS1 or OpenSSH.
                 Defaults to None.
             passphrase (str, optional): The passphrase.
                 Defaults to None.
@@ -345,7 +340,7 @@ class PrivateKey(Base):
 
         Args:
             path (str): The file path where the private key will be saved.
-            file_format (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
+            file_format (str, optional): Format : PKCS8, PKCS1 or OpenSSH.
                 Defaults to None.
             passphrase (str, optional): The passphrase.
                 Defaults to None.
@@ -384,25 +379,15 @@ class PrivateKey(Base):
         self._key = key
 
     @property
-    def keyb64(self):
-        """Returns the key bytes in Base 64 format
+    def keytext(self):
+        """Returns the key in PEM PKCS8 format
 
         Returns:
-            bytes: the key bytes in Base64 format.
+            str: the key.
 
         """
-        keybytes = self.keybytes
-        return base64.b64encode(keybytes).encode("UTF-8")
-
-    @property
-    def keybytes(self):
-        """Returns the key bytes in DER Raw format
-
-        Returns:
-            bytes: the key bytes in DER Raw format
-
-        """
-        return self._encode("DER", "Raw")
+        encoded = self._encode("PEM", "PKCS8")
+        return encoded.decode("UTF-8")
 
     # Decryption
     def decrypt(

@@ -10,7 +10,7 @@ dnsnames:
 ipaddresses:
   - 127.0.0.1
 subject :
-# common name (typically your DNS) [Required]
+# common name (typically your server DNS) [Required]
   COMMON_NAME: www.example.com
 # country [Required] (ISO 2 letters country code)
   COUNTRY_NAME: US

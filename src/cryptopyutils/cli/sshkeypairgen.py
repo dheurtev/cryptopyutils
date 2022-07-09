@@ -29,16 +29,17 @@ from cryptopyutils import sshkeypair
 def main():
     """
     Some equivalence with ssh-keygen (https://www.ssh.com/academy/ssh/keygenI)
-     -t rsa -b 4096
-     -t dsa
-     -t ed25519
-     -t ecdsa -b 521
-     -c comment (unique name identifying the key)
 
-    By default, this tool generates id_[alg] and id_[alg].pub files
-    with the --system option, it generates ssh_host_[alg]_key and ssh_host_[alg]_key.pub files.
+    * -t rsa -b 4096
+    * -t dsa
+    * -t ed25519
+    * -t ecdsa -b 521
+    * -c comment (unique name identifying the key)
 
-    You need the --force option to overwrite existing files
+    By default, this tool generates id_[alg] and id_[alg].pub files with the --system
+    option, it generates ssh_host_[alg]_key and ssh_host_[alg]_key.pub files.
+
+    You need the --force option to overwrite existing files.
 
     """
     parser = argparse.ArgumentParser(

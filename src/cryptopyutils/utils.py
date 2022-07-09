@@ -60,7 +60,8 @@ def file_encoding(encoding=None):
     """Returns the file encoding
 
     Args:
-        encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
+        encoding (str, optional): Encoding PEM, DER or OpenSSH
+            Not supported by cryptopyutils: RAW, X962, SMIME.
             Defaults to None.
             https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/
 
@@ -72,9 +73,9 @@ def file_encoding(encoding=None):
         "PEM": serialization.Encoding.PEM,
         "DER": serialization.Encoding.DER,
         "OpenSSH": serialization.Encoding.OpenSSH,
-        "X962": serialization.Encoding.X962,
-        "SMIME": serialization.Encoding.SMIME,
-        "RAW": serialization.Encoding.Raw,
+        # "X962": serialization.Encoding.X962,
+        # "SMIME": serialization.Encoding.SMIME,
+        # "RAW": serialization.Encoding.Raw,
     }
     if encoding in enc.keys():
         return enc[encoding]
@@ -86,7 +87,8 @@ def private_format(fmt=None):
     """Returns the private key format
 
     Args:
-        fmt (str, optional): Format : PKCS8, PKCS1, OpenSSH or RAW.
+        fmt (str, optional): Format : PKCS8, PKCS1 or OpenSSH.
+            Not supported by cryptopyutils: RAW
             Defaults to None.
             https://cryptography.io/en/latest/hazmat/primitives/asymmetric/serialization/
 
@@ -98,7 +100,7 @@ def private_format(fmt=None):
         "PKCS1": serialization.PrivateFormat.TraditionalOpenSSL,
         "PKCS8": serialization.PrivateFormat.PKCS8,
         "OpenSSH": serialization.PrivateFormat.OpenSSH,
-        "RAW": serialization.PrivateFormat.Raw,
+        # "RAW": serialization.PrivateFormat.Raw,
     }
     if fmt in formats.keys():
         return formats[fmt]
@@ -110,8 +112,8 @@ def public_format(fmt=None):
     """Returns the public key format
 
     Args:
-        fmt (str, optional): Format : SubjectPublicKeyInfo, PKCS1 or OpenSSH
-            or Raw or CompressedPoint or UncompressedPoint.
+        fmt (str, optional): Format : SubjectPublicKeyInfo, PKCS1 or OpenSSH.
+            Not supported by cryptopyutils: RAW, CompressedPoint, UncompressedPoint
             Defaults to None.
 
     Returns:
@@ -121,9 +123,9 @@ def public_format(fmt=None):
         "PKCS1": serialization.PublicFormat.PKCS1,
         "SubjectPublicKeyInfo": serialization.PublicFormat.SubjectPublicKeyInfo,
         "OpenSSH": serialization.PublicFormat.OpenSSH,
-        "CompressedPoint": serialization.PublicFormat.CompressedPoint,
-        "UncompressedPoint": serialization.PublicFormat.UncompressedPoint,
-        "RAW": serialization.PublicFormat.Raw,
+        # "CompressedPoint": serialization.PublicFormat.CompressedPoint,
+        # "UncompressedPoint": serialization.PublicFormat.UncompressedPoint,
+        # "RAW": serialization.PublicFormat.Raw,
     }
     if fmt in formats.keys():
         return formats[fmt]

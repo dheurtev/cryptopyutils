@@ -105,7 +105,7 @@ class PublicKey(Base):
 
         Args:
             path(str): The file path of the public key to be loaded.
-            encoding (str, optional): Encoding PEM, DER, openSSH, RAW, X962, SMIME.
+            encoding (str, optional): Encoding PEM, DER, openSSH, X962, SMIME.
                 Defaults to None.
 
         """
@@ -123,8 +123,6 @@ class PublicKey(Base):
         elif encoding == "OpenSSH":
             lines = files.read(path)
             self._key = serialization.load_ssh_public_key(lines)
-        elif encoding == "RAW":
-            self._key = files.read(path)
         elif encoding == "X962":
             self._key = files.read(path)
         elif encoding == "SMIME":
@@ -165,10 +163,10 @@ class PublicKey(Base):
         * PKCS8 is the default (Traditional openSSL style is kept as legacy)
 
         Args:
-            encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
+            encoding (str, optional): Encoding PEM, DER or OpenSSH.
                 Defaults to None.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                or OpenSSH.
                 Defaults to None.
 
         Returns:
@@ -208,10 +206,10 @@ class PublicKey(Base):
 
         Args:
             path (str): The file path where the public key will be saved.
-            encoding (str, optional): Encoding PEM, DER, OpenSSH, RAW, X962, SMIME.
+            encoding (str, optional): Encoding PEM, DER or OpenSSH.
                Defaults to None.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                or OpenSSH.
                 Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
                 Defaults to None.
@@ -230,7 +228,7 @@ class PublicKey(Base):
         if files.file_exists(path) and (not force):
             return False
         # write the key content
-        if encoding in ["SMIME"]:
+        if encoding in ["OpenSSH"]:
             files.write(path, data, istext=True)
         else:
             files.write(path, data)
@@ -256,7 +254,7 @@ class PublicKey(Base):
         Args:
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                or OpenSSH.
                 Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
                 Defaults to None.
@@ -282,7 +280,7 @@ class PublicKey(Base):
         Args:
             path (str): The file path where the private key will be saved.
             file_format (str, optional): Format : SubjectPublicKeyInfo, PKCS1
-                or OpenSSH or Raw or CompressedPoint or UncompressedPoint.
+                or OpenSSH.
                 Defaults to None.
             file_mode (byte, optional): The file mode (chmod).
                 Defaults to None.
@@ -336,25 +334,15 @@ class PublicKey(Base):
         self._private_key = key
 
     @property
-    def keyb64(self):
-        """Returns the key bytes in Base 64 format
+    def keytext(self):
+        """Returns the key in PEM SubjectPublicKeyInfo format
 
         Returns:
-            bytes: the key bytes in Base64 format.
+            str: the key.
 
         """
-        keybytes = self.keybytes
-        return base64.b64encode(keybytes).encode("UTF-8")
-
-    @property
-    def keybytes(self):
-        """Returns the key bytes in DER Raw format
-
-        Returns:
-            bytes: the key bytes in DER Raw format.
-
-        """
-        return self._encode("DER", "Raw")
+        encoded = self._encode("PEM", "SubjectPublicKeyInfo")
+        return encoded.decode("UTF-8")
 
     # Encrypt
     def encrypt(self, plaintext, padding=None):

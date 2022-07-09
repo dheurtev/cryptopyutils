@@ -2,34 +2,89 @@
 cryptopyutils
 =============
 
-This is the documentation of **cryptopyutils**.
+.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
+    :alt: Project generated with PyScaffold
+    :target: https://pyscaffold.org/
 
-.. note::
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :alt: Style follow black
+    :target: https://github.com/psf/black
 
-    This is the main page of your project's `Sphinx`_ documentation.
-    It is formatted in `reStructuredText`_. Add additional pages
-    by creating rst-files in ``docs`` and adding them to the `toctree`_ below.
-    Use then `references`_ in order to link them from this page, e.g.
-    :ref:`authors` and :ref:`changes`.
+.. _cryptographyurl: https://cryptography.io/en/latest/
 
-    It is also possible to refer to the documentation of other Python packages
-    with the `Python domain syntax`_. By default you can reference the
-    documentation of `Sphinx`_, `Python`_, `NumPy`_, `SciPy`_, `matplotlib`_,
-    `Pandas`_, `Scikit-Learn`_. You can add more by extending the
-    ``intersphinx_mapping`` in your Sphinx's ``conf.py``.
+=============
+cryptopyutils
+=============
 
-    The pretty useful extension `autodoc`_ is activated by default and lets
-    you include documentation from docstrings. Docstrings can be written in
-    `Google style`_ (recommended!), `NumPy style`_ and `classical style`_.
+High-level cryptography library using Python `cryptography <cryptographyurl_>`_ with sensible configurable defaults and CLI scripts.
+
+cryptopyutils can be used to :
+
+* encrypt ("derive") and verify passwords.
+* generate, save and load Asymmetric encryption keys and certificates :
+
+  * private keys/public keys (RSA, ED25519, ECDSA, DSA, etc).
+  * generate, save and load x509 Certificate Signing Request (CSR).
+  * generate, save and load x509 Certificates, particularly self-signed certificates, to be used in SSL applications.
+
+* encrypt or decrypt messages with RSA.
+* sign and verify messages with asymetric encryption. It works with small messages or in digest mode.
+* perform constant time comparisons between two series of bytes (prevents timing attacks).
+
+
+Please provide feedback to `@dheurtevent1`_.
+
+.. _@dheurtevent1: http://twitter.com/dheurtevent1
+
+How to install
+==============
+
+Requirements
+------------
+
+This library requires python `cryptography`, `distro` and `pyaml` (for the CLI examples)
+
+.. code-block:: console
+
+  $ pip install cryptography distro pyaml
+
+`cryptography <cryptographyurl_>`_ uses openSSL as its backend engine.
+
+
+Install the library
+-------------------
+
+.. code-block:: console
+
+  $ pip install cryptopyutils
+
+
+Licence
+=======
+* ``cryptopyutils`` is free open source software. It is released under `the Apache 2.0 licence <https://www.apache.org/licenses/LICENSE-2.0>`_.
 
 
 Contents
 ========
 
 .. toctree::
+   :maxdepth: 1
+
+   setup
+   create_project
+   glossary_terms
+
+
+.. toctree::
    :maxdepth: 2
 
    Overview <readme>
+   Features <features>
+   CLI <cli>
+   How to : private key <privatekey>
+   How to : public key <publickey>
+   How to : password <password>
+   Other examples <others>
    Contributions & Help <contributing>
    License <license>
    Authors <authors>
