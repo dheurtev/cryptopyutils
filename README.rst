@@ -12,7 +12,7 @@
 cryptopyutils
 =============
 
-High-level cryptography library using Python `cryptography <cryptographyurl_>`_ with sensible configurable defaults and CLI scripts.
+High-level Python3 cryptography library using `cryptography <cryptographyurl_>`_ with sensible configurable defaults and CLI scripts.
 
 ``cryptopyutils`` can be used to :
 
