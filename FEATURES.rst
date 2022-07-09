@@ -1,10 +1,11 @@
+#########
 Features
-=========
+#########
 
 ``cryptopyutils`` implements the following features of ``cryptography``:
-  * :ref:`implemented`
-  * :ref:`nottested`
-  * :ref:`notimplemented`
+  * `implemented`_
+  * `not tested <#nottested>`_
+  * `not implemented <#notimplemented>`_
 
 Defaults can be modified at run time by passing a configuration object (from config.py) at run time or by modifying the config.py file.
 
@@ -23,11 +24,12 @@ Example of passing a configuration object :
 
 .. _implemented:
 
+************
 Implemented
------------
+************
 
 Asymmetric encryption and decryption
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=====================================
 
 * RSA :
 
@@ -37,7 +39,7 @@ Asymmetric encryption and decryption
 .. _signature:
 
 Signature and Verification
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+===========================
 
 * RSA :
 
@@ -57,7 +59,7 @@ Signature and Verification
   * PSS + MGF1
 
 Passwords encryption and verification
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+======================================
 
 * PBKDF2HMAC :
 
@@ -69,27 +71,33 @@ Passwords encryption and verification
 Example: See example/password.py
 
 Asymmetric keys and certificates encoding formats
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+===================================================
 
 * PEM or DER private keys and public keys in PKCS8 (current SSL) or PKCS1 certificates (old style openSSL -legacy) language
 * PEM or DER x509 CSR and Certificates
 * OpenSSH key pairs (private key with PEM, public key in OpenSSH format) with RSA, ED25519, ECDSA and DSA (legacy)
 
 Constant time function
-~~~~~~~~~~~~~~~~~~~~~~
+=======================
 Example: See example/consttimecomp.py
+
+
 
 .. _nottested:
 
+*****************************
 Implemented but not tested
----------------------------
+*****************************
 
 * None
 
+
+
 .. _notimplemented:
 
+****************************
 Not implemented (wish list)
----------------------------
+****************************
 
 * Encoding:
 

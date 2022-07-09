@@ -1,3 +1,6 @@
+NOTICE
+
+
 This library uses:
 
 - Cryptography : https://github.com/pyca/cryptography (Apache and BSD licensed)

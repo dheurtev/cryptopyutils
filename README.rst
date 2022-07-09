@@ -8,9 +8,9 @@
 
 .. _cryptographyurl: https://cryptography.io/en/latest/
 
-=============
+##############
 cryptopyutils
-=============
+##############
 
 High-level Python3 cryptography library using `cryptography <cryptographyurl_>`_ with sensible configurable defaults and CLI scripts.
 
@@ -31,16 +31,19 @@ Please provide feedback to `@dheurtevent1`_.
 
 .. _@dheurtevent1: http://twitter.com/dheurtevent1
 
+
+***********
 Disclaimer
-----------
+***********
 
 .. caution:: USE AT YOUR OWN RISK. Has been tested only on Ubuntu 20.04 (Linux) with python 3.9.12.
 
+****************
 How to install
----------------
+****************
 
 Requirements
-~~~~~~~~~~~~~~
+=============
 
 This library requires python ``cryptography``, ``distro`` and ``pyaml`` (for the CLI examples)
 
@@ -53,7 +56,7 @@ This library requires python ``cryptography``, ``distro`` and ``pyaml`` (for the
 
 
 Install the library
-~~~~~~~~~~~~~~~~~~~~~
+======================
 
 .. code-block:: console
 
@@ -62,8 +65,9 @@ Install the library
 
 .. _usage:
 
+******
 Usage
-------
+******
 
 * ``cryptopyutils`` is free open source software. It is released under `the Apache 2.0 licence <https://www.apache.org/licenses/LICENSE-2.0>`_.
 * You are free to incorporate the library and/or its CLI in your open-source or proprietary projects.
@@ -72,20 +76,23 @@ Usage
 
 You can read the following how to guides:
 
-* How to : private key (privatekey.rst)
-* How to : public key (publickey.rst)
-* How to : password (password.rst)
+* `How to : private key <https://cryptopyutils.readthedocs.io/en/latest/privatekey.html>`_
+* `How to : public key <https://cryptopyutils.readthedocs.io/en/latest/publickey.html>`_
+* `How to : password <https://cryptopyutils.readthedocs.io/en/latest/password.html>`_
 
 You can also read the source code of other examples.
   
-In addition, you can have a look at the `API <api/modules>` and at the source code.
+In addition, you can have a look at the `API <https://cryptopyutils.readthedocs.io/en/latest/api/modules.html>`_ and at the source code
+in the `Github repository <https://github.com/dheurtev/cryptopyutils>`_.
 
 **To use the CLI examples**
 
 You can have a look at the CLI page.
 
+***************************
 Code quality and stability
---------------------------
+***************************
+
 * The code is documented, tested (>70 tests) and provided with examples.
 * Defaults can be provided at run time by developers or can be modified in the config.py file. 
 * The default values use the NIST recommendations and recommendations of the `cryptography` packages, as well as :

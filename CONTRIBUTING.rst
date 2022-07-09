@@ -1,10 +1,12 @@
+#############
 Contributing
-============
+#############
 
 Welcome to ``cryptopyutils`` contributor's guide.
 
+***************
 Short version
---------------
+***************
 * This project only supports Python 3.
 * This library is open-source free software released under 
   `the Apache 2.0 licence <https://www.apache.org/licenses/LICENSE-2.0>`_. 
@@ -20,8 +22,9 @@ Short version
 * This project has been set up using PyScaffold 4.2.3. For details and usage
   information on PyScaffold see https://pyscaffold.org/.
 
+***************
 Long version
--------------
+***************
 This document focuses on getting any potential contributor familiarized
 with the development processes, but `other kinds of contributions`_ are also
 appreciated.
@@ -36,7 +39,7 @@ Foundation's Code of Conduct`_ is a good reference in terms of behavior
 guidelines.
 
 Issue Reports
-~~~~~~~~~~~~~
+==============
 
 If you experience bugs or general issues with ``cryptopyutils``, please have a look
 on the `issue tracker`_. If you don't see anything useful there, please feel
@@ -55,7 +58,7 @@ you help us to identify the root cause of the issue.
 
 
 Documentation Improvements
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+===========================
 
 You can help improve ``cryptopyutils`` docs by making them more readable and coherent, or
 by adding missing information and correcting mistakes.
@@ -92,7 +95,7 @@ and use Python's built-in web server for a preview in your web browser
 
 
 Code Contributions
-~~~~~~~~~~~~~~~~~~
+====================
 
 * This project only supports Python 3.
 * This library is open-source free software released under 
@@ -110,14 +113,14 @@ Code Contributions
   information on PyScaffold see https://pyscaffold.org/.
 
 Submit an issue
-===============
+----------------
 
 Before you work on any non-trivial code contribution it's best to first create
 a report in the `issue tracker`_ to start a discussion on the subject.
 This often provides additional considerations and avoids unnecessary work.
 
 Create an environment
-=====================
+----------------------
 
 Before you start coding, we recommend creating an isolated `virtual
 environment`_ to avoid any problems with your installed Python packages.
@@ -132,7 +135,7 @@ or Miniconda_::
     conda activate cryptopyutils
 
 Clone the repository
-====================
+---------------------
 
 #. Create an user account on |the repository service| if you do not already have one.
 #. Fork the project repository_: click on the *Fork* button near the top of the
@@ -157,7 +160,7 @@ Clone the repository
    developer to check the code being written.
 
 Implement your changes
-======================
+-----------------------
 
 #. Create a branch to hold your changes::
 
@@ -202,7 +205,7 @@ Implement your changes
    repository. Try ``tox -av`` to see a list of the available checks.
 
 Submit your contribution
-========================
+-------------------------
 
 #. If everything works fine, push your local branch to |the repository service| with::
 
@@ -216,7 +219,7 @@ Submit your contribution
    from the continuous integration (CI) system or any required fixes.
 
 Troubleshooting
-================
+-----------------
 
 The following tips can be used when facing problems to build or test the
 package:
@@ -261,12 +264,11 @@ package:
    running ``tox -- -k <NAME OF THE FALLING TEST> --pdb``).
    You can also setup breakpoints manually instead of using the ``--pdb`` option.
 
-
 Maintainer tasks
-----------------
+=================
 
 Releases
-~~~~~~~~
+---------
 
 If you are part of the group of maintainers and have correct user permissions
 on PyPI_, the following steps can be used to release a new version for

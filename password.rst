@@ -1,14 +1,19 @@
+##################
 Password : How to
-==================
+##################
 
-**1. Instantiate a Password object**
+******************************
+Instantiate a Password object
+******************************
 
 .. code-block:: python
 
     from cryptopyutils.password import Password
     pwd = Password()
 
-**2. Encrypt a password**
+**********************
+Encrypt a password
+**********************
 
 When you encrypt a password, you will receive in return the encrypted password (key), as well as a salt.
 
@@ -30,7 +35,9 @@ Salts help us mitigate hash table attacks by forcing attackers to re-compute the
         print("Key (base64) : %s " % (base64.b64encode(key).decode("utf8")))
         # typically you will write your salt and key in a database
 
-**3. Verify a password**
+**********************
+Verify a password
+**********************
 
 .. code-block:: python
 

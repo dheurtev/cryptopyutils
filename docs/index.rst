@@ -1,7 +1,3 @@
-=============
-cryptopyutils
-=============
-
 .. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
     :alt: Project generated with PyScaffold
     :target: https://pyscaffold.org/
@@ -12,9 +8,9 @@ cryptopyutils
 
 .. _cryptographyurl: https://cryptography.io/en/latest/
 
-=============
+##############
 cryptopyutils
-=============
+##############
 
 High-level Python3 cryptography library using `cryptography <cryptographyurl_>`_ with sensible configurable defaults and CLI scripts.
 
@@ -36,11 +32,12 @@ Please provide feedback to `@dheurtevent1`_.
 
 .. _@dheurtevent1: http://twitter.com/dheurtevent1
 
+***************
 How to install
-==============
+***************
 
 Requirements
-------------
+=============
 
 This library requires python `cryptography`, `distro` and `pyaml` (for the CLI examples)
 
@@ -52,20 +49,22 @@ This library requires python `cryptography`, `distro` and `pyaml` (for the CLI e
 
 
 Install the library
--------------------
+====================
 
 .. code-block:: console
 
   $ pip install cryptopyutils
 
 
+********
 Licence
-=======
+********
 * ``cryptopyutils`` is free open source software. It is released under `the Apache 2.0 licence <https://www.apache.org/licenses/LICENSE-2.0>`_.
+* You are free to incorporate the library and/or its CLI in your open-source or proprietary projects.
 
-
+*********
 Contents
-========
+*********
 
 .. toctree::
    :maxdepth: 1
@@ -83,9 +82,9 @@ Contents
    Changelog <changelog>
    Module Reference <api/modules>
 
-
+******************
 Indices and tables
-==================
+******************
 
 * :ref:`genindex`
 * :ref:`modindex`

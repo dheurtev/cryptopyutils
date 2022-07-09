@@ -1,7 +1,10 @@
+#####################
 Private Key : How to
-=====================
+#####################
 
-**1. Instantiate a private key object**
+************************************
+Instantiate a private key object
+************************************
 
 With the configuration defaults:
 
@@ -23,7 +26,9 @@ or with your own configuration:
     # create the PrivateKey object with your configuration
     privk = PrivateKey(config=myconfig)
 
-**2. Generate a private key**
+*************************
+Generate a private key
+*************************
 
 .. code-block:: python
 
@@ -31,7 +36,9 @@ or with your own configuration:
     # alternative: generate an ED25519 key
     # privk.gen("ED25519")
 
-**3. Save a private key**
+**************************
+Save a private key
+**************************
 
 .. code-block:: python
 
@@ -42,20 +49,26 @@ or with your own configuration:
 
 If saved it returns True, otherwise False.
 
-**4. Load a private key**
+**********************
+Load a private key
+**********************
 
 .. code-block:: python
 
     filepath = "/tmp/myexample.com.pem"
     privk.load(filepath)
 
-**5. Display the private key in PEM PKCS8 format**
+***********************************************
+Display the private key in PEM PKCS8 format
+***********************************************
 
 .. code-block:: python
 
     print(privk.keytext)
 
-**6. Sign a message with your privatekey**
+***************************************
+Sign a message with your privatekey
+***************************************
 
 .. code-block:: python
 
@@ -70,7 +83,9 @@ Example of output:
 
     >>b'638QWTOjdT712NOmpPi+nLBGdZ6zQ64+ZNQcOTSpyZDQv7k3mO4piHNNVHxz7L3scQgThcp1QBQR7fyrAep7Ys2ozB6bAvCI6wUSF8achgTt69HY...'
 
-**7. Decrypt a message with your private key**
+*******************************************
+Decrypt a message with your private key
+*******************************************
 
 RSA is the encryption / decryption technique supported by cryptopyutils.
 

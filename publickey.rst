@@ -1,7 +1,10 @@
+#########################
 Publickey Key : How to
-=======================
+#########################
 
-**1. Instantiate a public key object**
+************************************
+Instantiate a public key object
+************************************
 
 With the configuration defaults:
 
@@ -23,7 +26,9 @@ or with your own configuration:
     # create the PublicKey object with your configuration
     pubk = PublicKey(config=myconfig)
 
-**2. Generate a public key**
+************************************
+Generate a public key
+************************************
 
 Prior to the generation of a public key we must create or load a private key.
 
@@ -46,7 +51,9 @@ Example : loading a private key
     # alternative: generate use ED25519 private key
     # pubk.gen("ED25519")
 
-**3. Save the public key**
+************************************
+Save the public key
+************************************
 
 .. code-block:: python
 
@@ -57,20 +64,27 @@ Example : loading a private key
 
 If saved it returns True, otherwise False.
 
-**4. Load the public key**
+***********************
+Load the public key
+***********************
 
 .. code-block:: python
 
     pubk_filepath = "/tmp/mykey/myexample.com.pub"
     pubk.load(pubk_filepath)
 
-**5. Display the public key in PEM PKCS8 format**
+
+**********************************************
+Display the public key in PEM PKCS8 format
+**********************************************
 
 .. code-block:: python
 
     print(pubk.keytext)
 
-**6. Verify a message with your public key**
+******************************************
+Verify a message with your public key
+******************************************
 
 This example assumes you already have loaded your public key.
 
@@ -86,7 +100,9 @@ This example assumes you already have loaded your public key.
 
 If verified it returns True, otherwise False.
 
-**8. Encrypt a message with your public key**
+******************************************
+Encrypt a message with your public key
+******************************************
 
 RSA is the encryption / decryption technique supported by cryptopyutils.
 
