@@ -53,7 +53,7 @@ This library requires python ``cryptography``, ``distro`` and ``pyaml`` (for the
 
 
 Install the library
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: console
 
