@@ -70,10 +70,13 @@ Usage
 
 **To use the library**
 
-* How to : private keys
-* How to : public keys
-* How to : passwords
-* Other examples
+You can read the following how to guides:
+
+* How to : private key (privatekey.rst)
+* How to : public key (publickey.rst)
+* How to : password (password.rst)
+
+You can also read the source code of other examples.
   
 In addition, you can have a look at the `API <api/modules>` and at the source code.
 
