@@ -9,7 +9,7 @@ License
 
 *******
 Notice
-********
+*******
 
 .. _notice:
 
